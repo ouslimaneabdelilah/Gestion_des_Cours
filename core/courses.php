@@ -18,3 +18,23 @@ function countCourse($mysqli)
     $row = mysqli_fetch_assoc($result);
     return $row['count'];
 }
+function deleteCourse($mysqli, $id){
+    $stmt = $mysqli->prepare("DELETE FROM courses WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+
+function voirCourse($mysqli,$id){
+    $sql = "SELECT c.*,s.title as title_section FROM courses INNER JOIN sections s ON c.id = s.id_course WHERE id = $id";
+    $result = mysqli_query($mysqli,$sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row;    
+}
+
+function editCourse($mysqli,$id,$title,$description,$level){
+    $sql = "UPDATE courses SET title=? , description = ? , level = ? WHERE id = ?";
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param("sssi",$title,$description,$level,$id);
+    return $stmt->execute();
+}
+
