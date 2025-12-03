@@ -2,11 +2,16 @@
 session_start();
 require_once '../../database/config/config.php';
 require_once '../../core/courses.php';
-
 $page_title = "Liste des Cours";
 include_once '../layout/header.php';
 $courses = getAllCourses($mysqli);
-
+if (isset($_SESSION["message"])) {
+    echo "<div class='bg-green-100 border mb-2 border-green-400 text-green-700 px-4 py-3 rounded relative' role='alert'>
+            <strong class='font-bold'>Succès !</strong>
+            <span class='block sm:inline'> " . htmlspecialchars($_SESSION['message']) . "</span>
+        </div>";
+    unset($_SESSION["message"]);
+}
 ?>
 
 <div class="container mx-auto px-4 sm:px-8">
@@ -87,9 +92,9 @@ $courses = getAllCourses($mysqli);
                                         </span>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <a href="courses_edit.php" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
-                                        <a href="courses_delete.php" class="text-red-600 hover:text-red-900 ml-4" >Supprimer</a>
-                                        <a href="../sections/sections_by_course.php" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
+                                        <a href="courses_edit.php?id=<?= $course['id'] ?>" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
+                                        <a href="courses_delete.php?id=<?= $course['id'] ?>" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
+                                        <a href="../sections/sections_by_course.php?id=<?= $course['id'] ?>" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

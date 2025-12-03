@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($title) && !empty($description) && !empty($level)) {
         if (createCourse($mysqli, $title, $description, $level)) {
             $_SESSION["message"] = "Ajouter Le course est success.";
-            header("Location: sections_list.php");
+            header("Location: courses_list.php");
             exit();
         } else {
             $error_message = "Erreur lors de la création de le course.";
