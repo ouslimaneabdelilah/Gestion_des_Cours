@@ -1,4 +1,13 @@
+<?php
+session_start();
+require_once '../../database/config/config.php';
+require_once '../../core/courses.php';
 
+$page_title = "Liste des Cours";
+include_once '../layout/header.php';
+$courses = getAllCourses($mysqli);
+
+?>
 
 <div class="container mx-auto px-4 sm:px-8">
     <div class="py-8">
@@ -62,7 +71,36 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        <?php if (!empty($courses)) : ?>
+                            <?php foreach ($courses as $course) : ?>
+                                <tr>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course['title']) ?></p>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course['description']) ?></p>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                            <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                            <span class="relative"><?= htmlspecialchars($course['level']) ?></span>
+                                        </span>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <a href="courses_edit.php" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
+                                        <a href="courses_delete.php" class="text-red-600 hover:text-red-900 ml-4" >Supprimer</a>
+                                        <a href="../sections/sections_by_course.php" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <tr>
+                                <td colspan="4" class="text-center py-10">
+                                    <p class="text-gray-500">Aucun cours trouvé.</p>
+                                    <a href="courses_create.php" class="mt-4 inline-block bg-green-500 text-white font-bold py-2 px-4 rounded hover:bg-green-600">Créer un nouveau cours</a>
+                                </td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -70,4 +108,4 @@
     </div>
 </div>
 
-
+<?php include_once '../layout/footer.php'; ?>

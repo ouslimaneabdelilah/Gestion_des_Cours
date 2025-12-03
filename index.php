@@ -1,6 +1,9 @@
 <?php
 $page_title = "Tableau de Bord";
 require_once 'views/layout/header.php';
+require_once 'database/config/config.php';
+require_once 'core/courses.php';
+require_once 'core/sections.php';
 ?>
 
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -12,7 +15,7 @@ require_once 'views/layout/header.php';
             <div class="ml-6">
                 <h3 class="text-lg font-semibold text-gray-600">Total des Cours</h3>
                 <p class="text-3xl font-bold text-gray-800">
-                    
+                    <?= countCourse($mysqli) ?>
                 </p>
             </div>
         </div>
@@ -25,7 +28,7 @@ require_once 'views/layout/header.php';
             <div class="ml-6">
                 <h3 class="text-lg font-semibold text-gray-600">Total des Sections</h3>
                 <p class="text-3xl font-bold text-gray-800">
-                    
+                   <?= countSection($mysqli) ?>
                 </p>
             </div>
         </div>
