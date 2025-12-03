@@ -53,7 +53,7 @@ require_once 'core/sections.php';
             <i class="fas fa-list-ul fa-3x text-blue-500 mb-3"></i>
             <span class="text-lg font-semibold text-gray-700">Voir les Cours</span>
         </a>
-        <a href="views/courses/courses_create.php" class="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-lg hover:bg-green-100 transition-colors duration-300">
+        <a href="./views/courses/courses_create.php" class="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-lg hover:bg-green-100 transition-colors duration-300">
             <i class="fas fa-plus-square fa-3x text-green-500 mb-3"></i>
             <span class="text-lg font-semibold text-gray-700">Ajouter un Cours</span>
         </a>
