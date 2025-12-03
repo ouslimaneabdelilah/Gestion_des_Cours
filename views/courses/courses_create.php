@@ -1,29 +1,24 @@
-
-
 <?php
 $page_title = "Créer un nouveau cours";
 include_once '../layout/header.php';
 require_once '../../database/config/config.php';
 require_once '../../core/courses.php';
-$levels = ["Débutant","Intermédiaire","Avancé"];
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
+$levels = ["Débutant", "Intermédiaire", "Avancé"];
+session_start();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST["title"];
     $description = $_POST["description"];
     $level = $_POST["level"];
-    
-    if(!empty($title) && !empty($description) && !empty($level)){
-        createCourse($mysqli,$title,$description,$level);
-        echo "<div class='bg-green-100 border mb-2 border-green-400 text-green-700 px-4 py-3 rounded relative' role='alert'>
-            <strong class='font-bold'>Success!</strong>
-            <span class='block sm:inline'> Ajouter course $title </span>
-        </div>";
-        
-    }
-    else{
-        echo "<div class='bg-red-100 border mb-2 border-red-400 text-red-700 px-4 py-3 rounded relative' role='alert'>
-            <strong class='font-bold'>Attention!</strong>
-            <span class='block sm:inline'> Required Fildes</span>
-        </div>";
+    if (!empty($title) && !empty($description) && !empty($level)) {
+        if (createCourse($mysqli, $title, $description, $level)) {
+            $_SESSION["message"] = "Ajouter Le course est success.";
+            header("Location: sections_list.php");
+            exit();
+        } else {
+            $error_message = "Erreur lors de la création de le course.";
+        }
+    } else {
+        $error_message = "Tous les champs sont requis.";
     }
 }
 
@@ -34,6 +29,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         <div>
             <h2 class="text-2xl font-semibold leading-tight">Créer un nouveau cours</h2>
         </div>
+        <?php if (isset($error_message)) : ?>
+            <div class='bg-red-100 border mt-4 border-red-400 text-red-700 px-4 py-3 rounded relative' role='alert'>
+                <strong class='font-bold'>Attention!</strong>
+                <span class='block sm:inline'> <?= htmlspecialchars($error_message) ?></span>
+            </div>
+        <?php endif; ?>
         <div class="mt-5 md:mt-0 md:col-span-2">
             <form action="#" method="POST">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
@@ -58,9 +59,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                             <label for="level" class="block text-sm font-medium text-gray-700">Niveau</label>
                             <select id="level" name="level" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option>-- Sélectionnez un niveau --</option>
-                                <?php foreach($levels as $level) :?>
+                                <?php foreach ($levels as $level) : ?>
                                     <option value="<?= $level ?>"><?= $level ?></option>
-                                <?php endforeach; ?>   
+                                <?php endforeach; ?>
                             </select>
                         </div>
                     </div>
@@ -79,4 +80,3 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 </div>
 
 <?php include_once '../layout/footer.php'; ?>
-
