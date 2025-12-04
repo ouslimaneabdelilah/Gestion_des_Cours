@@ -42,9 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="grid grid-cols-3 gap-6">
                             <div class="col-span-3">
                                 <label for="title" class="block text-sm font-medium text-gray-700">Titre du cours</label>
-                                <div class="mt-1 flex rounded-md shadow-sm">
-                                    <input type="text" name="title" id="title" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300" placeholder="e.g. Introduction à PHP">
-                                </div>
+                                <input type="text" name="title" id="title" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="e.g. Introduction à PHP"> 
                             </div>
                         </div>
 
