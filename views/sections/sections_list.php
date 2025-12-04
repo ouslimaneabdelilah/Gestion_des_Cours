@@ -4,14 +4,13 @@ $page_title = "Liste des Sections";
 require_once '../../database/config/config.php';
 require_once '../../core/sections.php';
 include_once '../layout/header.php';
+include_once '../layout/alert.php';
+
 
 $sections = getAllSections($mysqli);
 
 if (isset($_SESSION["message"])) {
-    echo "<div class='bg-green-100 border mb-2 border-green-400 text-green-700 px-4 py-3 rounded relative' role='alert'>
-            <strong class='font-bold'>Succès !</strong>
-            <span class='block sm:inline'> " . htmlspecialchars($_SESSION['message']) . "</span>
-        </div>";
+    alert_success($_SESSION["message"]);
     unset($_SESSION["message"]);
 }
 ?>
