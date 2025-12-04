@@ -46,4 +46,14 @@ function deleteSection($mysqli, $id){
     $stmt->bind_param("i", $id);
     return $stmt->execute();
 }
+
+function checkPostion($mysqli,$position,$course_id,$id_section){
+    $sql = "SELECT * FROM sections WHERE course_id =$course_id AND position=$position";
+    $data = mysqli_query($mysqli,$sql);
+    $result = mysqli_fetch_assoc($data);
+    if($result && $result["id"] === $id_section) return True;
+    if($result && $result["id"] !== $id_section) return False;
+    if(!$result) return True;
+
+}
 ?>
