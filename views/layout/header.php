@@ -15,7 +15,7 @@ if (!isset($page_title)) { $page_title = 'Gestions des courses'; }
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
-                <a href="index.php" class="font-bold text-xl tracking-wider flex items-center">
+                <a href="../../index.php" class="font-bold text-xl tracking-wider flex items-center">
                     <i class="fas fa-graduation-cap mr-2"></i>
                     Cours & Sections
                 </a>
