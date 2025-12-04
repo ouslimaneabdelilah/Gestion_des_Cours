@@ -38,3 +38,12 @@ function editCourse($mysqli,$id,$title,$description,$level){
     return $stmt->execute();
 }
 
+
+function getCoursebyId($mysqli, $id){
+    $stmt = $mysqli->prepare("SELECT * FROM courses WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
+}
+
