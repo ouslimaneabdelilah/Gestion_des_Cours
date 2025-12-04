@@ -21,6 +21,12 @@ CREATE TABLE sections (
 );
 
 
+-- modifier dans la table sections
+
+AlTER TABLE sections
+ADD CONSTRAINT unique_course_position
+UNIQUE(course_id,position);
+
 
 
 INSERT INTO courses (id, title, description, level, created_at) VALUES (1, 'Introduction au Développement Web', 'Apprendre les bases du HTML, CSS et JavaScript pour créer des sites web modernes.', 'Débutant', '2025-01-10 09:32:00'),
