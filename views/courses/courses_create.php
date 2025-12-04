@@ -1,10 +1,10 @@
 <?php
+session_start();
 $page_title = "Créer un nouveau cours";
 include_once '../layout/header.php';
 require_once '../../database/config/config.php';
 require_once '../../core/courses.php';
 $levels = ["Débutant", "Intermédiaire", "Avancé"];
-session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = $_POST["title"];
     $description = $_POST["description"];
