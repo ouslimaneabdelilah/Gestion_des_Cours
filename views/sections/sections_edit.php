@@ -48,8 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <span class='block sm:inline'> <?= htmlspecialchars($error_message) ?></span>
             </div>
         <?php endif; ?>
+                <div class="bg-red-100  mb-3 invisible  border mt-4 border-red-400 text-red-700 px-4 py-3 rounded relative alert_error" role="alert">
+            <ul id="myErrours" class="font-medium">
+
+            </ul>
+        </div>
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form action="sections_edit.php?id=<?= $id ?>" method="POST">
+            <form action="sections_edit.php?id=<?= $id ?>" method="POST" id="myForm">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                         <div>
@@ -84,5 +89,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </div>
+<script>
+    const form = document.getElementById("myForm")
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        const divErrors = document.getElementById("errors")
+        const title = document.getElementById("title").value.trim();
+        const course = document.getElementById('course_id').value.trim();
+        const content = document.getElementById('content').value.trim();
+        const position = document.getElementById('position').value.trim();
+        const ulErrors= document.getElementById("myErrours");
+        const divErrours = document.querySelector(".alert_error");
+        const errors = [];
+        if (title === "") {
+            errors.push("le title de section est requried ! ");
+        }
+        if (course === "") {
+            errors.push("le course est requried ! ");
+        }
+        if (content === "") {
+            errors.push("la content de section est requried ! ");
+        }
+
+        if (errors.length > 0) {
+            divErrours.classList.remove("invisible")
+            ulErrors.innerHTML = "";
+            errors.forEach(e=>{
+                ulErrors.innerHTML += `<li>${e}</li>`
+            })
+        }
+        else{
+            form.submit()
+        }
+        
+    })
+</script>
 
 <?php include_once '../layout/footer.php'; ?>
