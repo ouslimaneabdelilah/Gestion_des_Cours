@@ -4,27 +4,40 @@ include_once '../layout/header.php';
 require_once '../../database/config/config.php';
 require_once '../../core/courses.php';
 session_start();
-$levels = ["Débutant","Intermédiaire","Avancé"];
+$levels = ["Débutant", "Intermédiaire", "Avancé"];
 
-if(!isset($_GET['id']) ||empty($_GET['id'])){
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: courses_list.php");
     exit();
 }
-$id= $_GET['id'];
-$course = getCoursebyId($mysqli,$id);
+$id = $_GET['id'];
+$course = getCoursebyId($mysqli, $id);
 
-if(empty($course)){
+if (empty($course)) {
     header("Location: courses_edit.php");
     exit();
 }
 
-if($_SERVER["REQUEST_METHOD"] === "POST"){
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $title = htmlspecialchars($_POST["title"]);
     $description = htmlspecialchars($_POST["description"]);
     $level = htmlspecialchars($_POST["level"]);
-    editCourse($mysqli,$id,$title,$description,$level);
-    $_SESSION["message"] = "la modification est Succes";
-    header("Location: courses_list.php");
+    if (!empty($title) && !empty($description) && !empty($level)) {
+        if (in_array($level, $levels)) {
+
+            if (editCourse($mysqli, $id, $title, $description, $level)) {
+                $_SESSION["message"] = "la modification est Succes";
+                header("Location: courses_list.php");
+                exit();
+            } else {
+                $error_message = "Erreur lors de la création de le course.";
+            }
+        } else {
+            $error_message = "Level qui choisir n'est pas exect.";
+        }
+    } else {
+        $error_message = "Tous les champs sont requis.";
+    }
 }
 ?>
 
@@ -33,8 +46,19 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         <div>
             <h2 class="text-2xl font-semibold leading-tight">Modifier le Cours</h2>
         </div>
+        <div class="bg-red-100  mb-3 invisible  border mt-4 border-red-400 text-red-700 px-4 py-3 rounded relative alert_error" role="alert">
+            <ul id="myErrours" class="font-medium">
+
+            </ul>
+        </div>
+        <?php if (isset($error_message)) : ?>
+            <div  class='bg-red-100 hidden border mt-4 border-red-400 text-red-700 px-4 py-3 rounded relative' role='alert'>
+                <strong class='font-bold'>Attention!</strong>
+                <span class='block sm:inline'> <?= htmlspecialchars($error_message) ?></span>
+            </div>
+        <?php endif; ?>
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form action="#" method="POST">
+            <form action="#" method="POST" id="myForm">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                         <div class="grid grid-cols-3 gap-6">
@@ -56,9 +80,9 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
                         <div>
                             <label for="level" class="block text-sm font-medium text-gray-700">Niveau</label>
                             <select id="level" name="level" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <?php foreach($levels as $level):?>
-                                    <option value="<?= $level ?>" <?= $level === $course["level"] ? "selected" : ""?>><?= $level ?></option>
-                                <?php endforeach?>
+                                <?php foreach ($levels as $level): ?>
+                                    <option value="<?= $level ?>" <?= $level === $course["level"] ? "selected" : "" ?>><?= $level ?></option>
+                                <?php endforeach ?>
                             </select>
                         </div>
                     </div>
@@ -75,5 +99,38 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
         </div>
     </div>
 </div>
+<script>
+    const form = document.getElementById("myForm")
+    form.addEventListener("submit", (e) => {
+        e.preventDefault()
+        const divErrors = document.getElementById("errors")
+        const title = document.getElementById("title").value.trim();
+        const description = document.getElementById('description').value.trim();
+        const level = document.getElementById('level').value.trim();
+        const ulErrors = document.getElementById("myErrours");
+        const divErrours = document.querySelector(".alert_error");
+        const errors = [];
+        if (title === "") {
+            errors.push("le title de course est requried ! ");
+        }
+        if (level === "") {
+            errors.push("le Niveau de course est requried ! ");
+        }
+        if (description === "") {
+            errors.push("la description de course est requried ! ");
+        }
+
+        if (errors.length > 0) {
+            divErrours.classList.remove("invisible")
+            ulErrors.innerHTML = "";
+            errors.forEach(e => {
+                ulErrors.innerHTML += `<li>${e}</li>`
+            })
+        } else {
+            form.submit()
+        }
+
+    })
+</script>
 
 <?php include_once '../layout/footer.php'; ?>
