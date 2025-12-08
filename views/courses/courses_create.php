@@ -47,13 +47,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form id="myForm" action="#" method="POST">
+            <form id="myForm" action="#" method="POST" enctype="multipart/form-data">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                         <div class="grid grid-cols-3 gap-6">
                             <div class="col-span-3">
                                 <label for="title" class="block text-sm font-medium text-gray-700">Titre du cours</label>
                                 <input type="text" name="title" id="title" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="e.g. Introduction à PHP">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-6">
+                            <div class="col-span-3">
+                                <label for="image" class="block text-sm font-medium text-gray-700">Image du cours</label>
+                                <input type="file" name="image" id="image" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="e.g. Introduction à PHP">
                             </div>
                         </div>
 

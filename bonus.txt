@@ -1,0 +1,6 @@
+router &controllers
+OOP (models)
+DAO (Design pattern)
+services
+Refletion 
+your own ORM
