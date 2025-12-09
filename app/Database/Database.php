@@ -4,7 +4,7 @@ class Database{
     public function __construct()
     {
         $config = require "./config/config.php";
-        $dsn = "mysql:host={$config['host']}; dbname:{$config['dbname']};charset={$config['charset']}";
+        $dsn = "mysql:host={$config['host']}; dbname={$config['dbname']};charset={$config['charset']}";
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
