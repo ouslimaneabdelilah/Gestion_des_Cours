@@ -12,7 +12,7 @@ class Database{
         ];
 
         try {
-            $pdo = new PDO($dsn,$config["username"],$config["password"],$options);
+            $this->pdo = new PDO($dsn,$config["username"],$config["password"],$options);
         } catch (PDOException $e) {
             die("Error dans la connexion de database" . $e->getMessage());
         }
