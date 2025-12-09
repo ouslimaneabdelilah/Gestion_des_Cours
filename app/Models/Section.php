@@ -41,7 +41,7 @@ class Section{
     {
         $stm = $this->pdo->prepare("DELETE FROM sections WHERE id = :id");
         $stm->bindParam(":id", $id, PDO::PARAM_INT);
-        return $stm->$stm->execute();;
+        return $stm->execute();;
     }
 }
 ?>
