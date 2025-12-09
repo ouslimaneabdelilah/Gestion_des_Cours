@@ -43,7 +43,7 @@ class Course
     {
         $stm = $this->pdo->prepare("DELETE FROM courses WHERE id = :id");
         $stm->bindParam(":id", $id, PDO::PARAM_INT);
-        return $stm->$stm->execute();;
+        return $stm->execute();;
     }
     public function getSections($courseId)
     {
