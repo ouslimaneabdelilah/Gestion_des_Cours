@@ -1,15 +1,12 @@
 <?php
-session_start();
-require_once '../../database/config/config.php';
-require_once '../../core/courses.php';
 $page_title = "Liste des Cours";
-include_once '../layout/header.php';
-include_once '../layout/alert.php';
-$courses = getAllCourses($mysqli);
+include_once './resources/views/layouts/header.php';
+include_once './resources/views/layouts/alert.php';
 if (isset($_SESSION["message"])) {
     alert_success($_SESSION["message"]);
     unset($_SESSION["message"]);
 }
+
 ?>
 
 <div class="container mx-auto px-4 sm:px-8">
@@ -78,8 +75,8 @@ if (isset($_SESSION["message"])) {
                                         </span>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <a href="courses_edit.php?id=<?= $course['id'] ?>" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
-                                        <a href="courses_delete.php?id=<?= $course['id'] ?>" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
+                                        <a href="course/edit?id=<?= $course['id'] ?>" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
+                                        <a href="course/confirmDelete?id=<?= $course['id'] ?>" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
                                         <a href="../sections/sections_by_course.php?id=<?= $course['id'] ?>" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
                                     </td>
                                 </tr>
@@ -99,4 +96,4 @@ if (isset($_SESSION["message"])) {
     </div>
 </div>
 
-<?php include_once '../layout/footer.php'; ?>
+<?php include_once './resources/views/layouts/footer.php'; ?>
