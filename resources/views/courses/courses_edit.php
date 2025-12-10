@@ -1,44 +1,6 @@
 <?php
 $page_title = "Modifier le Cours";
-include_once '../layout/header.php';
-require_once '../../database/config/config.php';
-require_once '../../core/courses.php';
-session_start();
-$levels = ["Débutant", "Intermédiaire", "Avancé"];
-
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: courses_list.php");
-    exit();
-}
-$id = $_GET['id'];
-$course = getCoursebyId($mysqli, $id);
-
-if (empty($course)) {
-    header("Location: courses_edit.php");
-    exit();
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $title = htmlspecialchars($_POST["title"]);
-    $description = htmlspecialchars($_POST["description"]);
-    $level = htmlspecialchars($_POST["level"]);
-    if (!empty($title) && !empty($description) && !empty($level)) {
-        if (in_array($level, $levels)) {
-
-            if (editCourse($mysqli, $id, $title, $description, $level)) {
-                $_SESSION["message"] = "la modification est Succes";
-                header("Location: courses_list.php");
-                exit();
-            } else {
-                $error_message = "Erreur lors de la création de le course.";
-            }
-        } else {
-            $error_message = "Level qui choisir n'est pas exect.";
-        }
-    } else {
-        $error_message = "Tous les champs sont requis.";
-    }
-}
+include_once './resources/views/layouts/header.php';
 ?>
 
 <div class="container mx-auto px-4 sm:px-8 max-w-3xl">
@@ -52,15 +14,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </ul>
         </div>
         <?php if (isset($error_message)) : ?>
-            <div  class='bg-red-100 hidden border mt-4 border-red-400 text-red-700 px-4 py-3 rounded relative' role='alert'>
+            <div class='bg-red-100 hidden border mt-4 border-red-400 text-red-700 px-4 py-3 rounded relative' role='alert'>
                 <strong class='font-bold'>Attention!</strong>
                 <span class='block sm:inline'> <?= htmlspecialchars($error_message) ?></span>
             </div>
         <?php endif; ?>
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form action="#" method="POST" id="myForm">
+            <form action="/course/update" method="POST" id="myForm">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                        <input type="hidden" name="id" value="<?= $course['id'] ?>">
+
                         <div class="grid grid-cols-3 gap-6">
                             <div class="col-span-3">
                                 <label for="title" class="block text-sm font-medium text-gray-700">Titre du cours</label>
@@ -133,4 +97,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     })
 </script>
 
-<?php include_once '../layout/footer.php'; ?>
+<?php include_once './resources/views/layouts/footer.php'; ?>
