@@ -139,17 +139,16 @@ class CourseController
         include "./resources/views/courses/courses_delete.php";
     }
 
-    public function destroy()
+    public function destroy($id)
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header("Location: /courses");
             exit();
         }
 
-        $id = $_POST['course_id'] ?? null;
-
+        
         if (!$id) {
-            $_SESSION['message'] = "Erreur: Aucun cours sélectionné.";
+            
             header("Location: /courses");
             exit();
         }
