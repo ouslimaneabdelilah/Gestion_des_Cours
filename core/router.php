@@ -1,34 +1,36 @@
-<?php 
+<?php
 
-class Router{
-    private $routes=[];
-    public function get($path,$callback){
+class Router
+{
+    private $routes = [];
+    public function get($path, $callback)
+    {
         $this->routes["GET"][$path] = $callback;
     }
-    public function post($path,$callback){
+    public function post($path, $callback)
+    {
         $this->routes["POST"][$path] = $callback;
     }
     public function run()
     {
         $method = $_SERVER['REQUEST_METHOD'];
         $path   = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        echo "<pre>";
-        print_r($path);
-        echo "</pre>";
         $path = trim($path, '/');
-        
         if (isset($this->routes[$method][$path])) {
             $action = $this->routes[$method][$path];
-            echo "<pre>";
-            print_r($action);
-            echo "</pre>";
-
             if (is_string($action)) {
-                [$controller, $method] = explode('@', $action);
-                require "./app/Controllers/". $controller . ".php";
+                [$controllerName, $methodName] = explode('@', $action);
+                require "./app/Controllers/" . $controllerName . ".php";
 
-                $controller = new $controller;
-                return $controller->$method();
+                $controller = new $controllerName;
+                if ($method === "GET") {
+                    $id = $_GET['id'] ?? null;
+                    return $controller->$methodName($id);
+                }
+                if ($method === "POST") {
+                    $id = $_POST['id'] ?? null;
+                    return $controller->$methodName($id, $_POST);
+                }
             }
 
             return call_user_func($action);
@@ -38,5 +40,3 @@ class Router{
         echo "404  page not found";
     }
 }
-
-?>
