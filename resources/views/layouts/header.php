@@ -22,9 +22,9 @@ if (!isset($page_title)) { $page_title = 'Gestions des courses'; }
             </div>
             <div class="hidden md:block">
                 <div class="ml-10 flex items-baseline space-x-4">
-                    <a href="../../views/courses/courses_list.php" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Cours</a>
-                    <a href="../../views/sections/sections_list.php" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Sections</a>
-                    <a href="../../views/courses/courses_create.php" class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
+                    <a href="/courses" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Cours</a>
+                    <a href="/sections" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Sections</a>
+                    <a href="/course/create" class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
                         <i class="fas fa-plus-circle mr-1"></i> Créer un Cours
                     </a>
                 </div>
@@ -40,9 +40,9 @@ if (!isset($page_title)) { $page_title = 'Gestions des courses'; }
 
     <div class="md:hidden hidden" id="mobile-menu">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="../../views/courses/courses_list.php" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Cours</a>
-            <a href="../../views/sections/sections_list.php" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Sections</a>
-            <a href="../../views/courses/courses_create.php" class="text-white bg-green-500 hover:bg-green-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-plus-circle mr-1"></i> Créer un Cours</a>
+            <a href="/courses" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Cours</a>
+            <a href="/sections" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Sections</a>
+            <a href="/course/create" class="text-white bg-green-500 hover:bg-green-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-plus-circle mr-1"></i> Créer un Cours</a>
         </div>
     </div>
   </nav>

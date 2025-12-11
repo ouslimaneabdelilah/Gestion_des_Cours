@@ -19,12 +19,27 @@ class SectionController
 
     public function create()
     {
+        $courses = $this->courseModal->all();
         include "./resources/views/sections/sections_create.php";
     }
-    public function store($data)
+    public function store()
     {
-        $this->sectionModel->create($data["course_id"], $data["title"], $data["content"], $data["position"]);
-        header("Location:./resources/views/sections/sections_list.php");
+        $course_id = $_POST["course_id"];
+        $title = $_POST["title"];
+        $content = $_POST["content"];
+        $position = $_POST["position"];
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("Location: /sections");
+            exit();
+        }
+        if($position === "" || $title === "" || $content === "" || $course_id === ""){
+            $error_message = "Tous les champs sont requis.";
+            return;
+
+        }
+        $_SESSION["message"] = "La section a été créée avec succès.";
+        $this->sectionModel->create($course_id, $title, $content, $position);
+        header("Location:/sections");
     }
 
     public function edit($id)
@@ -92,7 +107,7 @@ class SectionController
             header("Location: /sections");
             exit();
         }
-         $_SESSION["message"] = "Succes! La section est supprimer.";
+        $_SESSION["message"] = "Succes! La section est supprimer.";
         $this->sectionModel->delete($id);
         header("Location:/sections");
     }

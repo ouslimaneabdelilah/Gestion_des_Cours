@@ -15,7 +15,7 @@ if (isset($_SESSION["message"])) {
     <div class="py-8">
         <div class="flex justify-between items-center">
             <h2 class="text-2xl font-semibold leading-tight">Liste des Sections</h2>
-            <a href="sections_create.php" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+            <a href="/section/create" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
                 <i class="fas fa-plus"></i> Ajouter une Section
             </a>
         </div>
