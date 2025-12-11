@@ -1,29 +1,8 @@
 <?php
-session_start();
 $page_title = "Supprimer la Section";
-require_once '../../database/config/config.php';
-require_once '../../core/sections.php';
-include_once '../layout/header.php';
+require_once "./resources/views/layouts/header.php";
 
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: sections_list.php");
-    exit();
-}
 
-$id = $_GET['id'];
-$section = getSectionById($mysqli, $id);
-
-if (!$section) {
-    header("Location: sections_list.php");
-    exit();
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    deleteSection($mysqli, $id);
-    $_SESSION["message"] = "Succes! La section est supprimer.";
-    header("Location: sections_list.php");
-    exit();
-}
 ?>
 
 <div class="container mx-auto px-4 sm:px-8 max-w-lg">
@@ -38,8 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <p class="text-sm text-gray-600 mt-1"><?= htmlspecialchars($section['content']) ?></p>
             </div>
             <div class="mt-8 flex justify-center gap-4">
-                <a href="sections_list.php" class="px-6 py-2 border rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100">Annuler</a>
-                <form action="sections_delete.php?id=<?= $id ?>" method="POST">
+                <a href="/sections" class="px-6 py-2 border rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100">Annuler</a>
+                <form action="/section/<?= $id ?>/delete" method="POST">
                     <button type="submit" class="px-6 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700">Supprimer</button>
                 </form>
             </div>
@@ -47,4 +26,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
 </div>
 
-<?php include_once '../layout/footer.php'; ?>
+<?php include_once "./resources/views/layouts/header.php"; ?>

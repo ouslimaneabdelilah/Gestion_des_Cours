@@ -1,13 +1,9 @@
 <?php
-session_start();
 $page_title = "Liste des Sections";
-require_once '../../database/config/config.php';
-require_once '../../core/sections.php';
-include_once '../layout/header.php';
-include_once '../layout/alert.php';
+include_once './resources/views/layouts/header.php';
+include_once './resources/views/layouts/alert.php';
 
 
-$sections = getAllSections($mysqli);
 
 if (isset($_SESSION["message"])) {
     alert_success($_SESSION["message"]);
@@ -48,8 +44,8 @@ if (isset($_SESSION["message"])) {
                                         <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($section['position']) ?></p>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <a href="sections_edit.php?id=<?= $section['id'] ?>" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
-                                        <a href="sections_delete.php?id=<?= $section['id'] ?>" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
+                                        <a href="/section/<?= $section['id'] ?>/edit" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
+                                        <a href="/section/<?= $section['id'] ?>/delete" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -67,4 +63,4 @@ if (isset($_SESSION["message"])) {
     </div>
 </div>
 
-<?php include_once '../layout/footer.php'; ?>
+<?php include_once './resources/views/layouts/footer.php'; ?>

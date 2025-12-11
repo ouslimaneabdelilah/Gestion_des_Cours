@@ -62,7 +62,7 @@ class SectionController
         if ($checkPosition) {
             $error_message = "S'il vous plait le position deja affecte pour un other course";
         }
-        if ($course_id === "" || $content === "" || $title=== "" || $position === "") {
+        if ($course_id === "" || $content === "" || $title === "" || $position === "") {
             $error_message = "Tous les champs sont requis.";
             header("Location: /sections");
             exit();
@@ -73,9 +73,27 @@ class SectionController
         header("Location: /sections");
     }
 
+
+    public function confirmDelete($id)
+    {
+        $section = $this->sectionModel->find($id);
+        if (!$section) {
+            $_SESSION['message'] = "Section introuvable.";
+            header("Location: /section");
+            exit;
+        }
+        include "./resources/views/sections/sections_delete.php";
+    }
+
+
     public function destroy($id)
     {
+        if (!$id || $_SERVER["REQUEST_METHOD"] !== "POST") {
+            header("Location: /sections");
+            exit();
+        }
+         $_SESSION["message"] = "Succes! La section est supprimer.";
         $this->sectionModel->delete($id);
-        header("Location:./resources/views/sections/sections_list.php");
+        header("Location:/sections");
     }
 }
