@@ -20,17 +20,29 @@ include_once './resources/views/layouts/header.php';
             </div>
         <?php endif; ?>
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form action="/course/update" method="POST" id="myForm">
+            <form action="/course/<?= $course["id"] ?>/update" method="POST" id="myForm" enctype="multipart/form-data">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
-                        <input type="hidden" name="id" value="<?= $course['id'] ?>">
-
                         <div class="grid grid-cols-3 gap-6">
                             <div class="col-span-3">
                                 <label for="title" class="block text-sm font-medium text-gray-700">Titre du cours</label>
                                 <div class="mt-1 flex rounded-md shadow-sm">
                                     <input type="text" value="<?= $course["title"] ?>" name="title" id="title" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-6">
+                            <div class="col-span-3">
+                                <label for="title" class="block text-sm font-medium text-gray-700">Image</label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                        <img src="/public/uploads/<?= $course['image'] ?>" width="150">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-6">
+                            <div class="col-span-3">
+                                <label for="image" class="block text-sm font-medium text-gray-700">Image du cours</label>
+                                <input type="file" name="image" id="image" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="e.g. Introduction à PHP">
                             </div>
                         </div>
 

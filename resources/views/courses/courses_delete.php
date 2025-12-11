@@ -27,8 +27,7 @@ include_once "./resources/views/layouts/header.php";
                 <a href="/courses" class="px-6 py-2 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                     Annuler
                 </a>
-                <form action="/course/delete" method="POST">
-                    <input type="hidden" name="course_id" value="<?= $course['id'] ?>">
+                <form action="/course/<?= $course["id"] ?>/delete" method="POST">
                     <button type="submit" class="px-6 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         Supprimer
                     </button>
