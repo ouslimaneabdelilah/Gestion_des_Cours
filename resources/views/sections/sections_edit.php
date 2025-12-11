@@ -1,41 +1,6 @@
 <?php
-session_start();
 $page_title = "Modifier la Section";
-require_once '../../database/config/config.php';
-require_once '../../core/courses.php';
-require_once '../../core/sections.php';
-include_once '../layout/header.php';
-
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: sections_list.php");
-    exit();
-}
-
-$id = $_GET['id'];
-$section = getSectionById($mysqli, $id);
-$courses = getAllCourses($mysqli);
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $course_id = $_POST["course_id"];
-    $title = $_POST["title"];
-    $content = $_POST["content"];
-    $position = $_POST["position"];
-
-    if (!empty($course_id) && !empty($title) && !empty($content) && isset($position)) {
-        $countPosition= checkPostion($mysqli,$position,$course_id,$id);
-        if($countPosition === True){
-            
-            updateSection($mysqli, $id, $course_id, $title, $content, $position);
-            $_SESSION["message"] = "La  modification de section est sucess.";
-            header("Location: sections_list.php");
-            exit();
-        }else{
-            $error_message = "S'il vous plait le position deja affecte pour un other course";
-        }
-    } else {
-        $error_message = "Tous les champs sont requis.";
-    }
-}
+include_once './resources/views/layouts/header.php';
 
 ?>
 
@@ -54,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </ul>
         </div>
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form action="sections_edit.php?id=<?= $id ?>" method="POST" id="myForm">
+            <form action="/section/<?= $id ?>/update" method="POST" id="myForm">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                         <div>
@@ -125,4 +90,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     })
 </script>
 
-<?php include_once '../layout/footer.php'; ?>
+<?php include_once './resources/views/layouts/footer.php'; ?>
