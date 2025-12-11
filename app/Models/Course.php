@@ -50,7 +50,10 @@ class Course
     }
     public function getSections($courseId)
     {
-        $stm = $this->pdo->prepare("SELECT * FROM sections WHERE course_id = :course_id");
+        $stm = $this->pdo->prepare("SELECT c.title as course_title, s.* 
+        FROM sections s 
+        INNER JOIN courses c ON s.course_id = c.id
+        WHERE s.course_id = :course_id");
         $stm->bindParam(":course_id", $courseId, PDO::PARAM_INT);
         $stm->execute();
         return $stm->fetchAll();
