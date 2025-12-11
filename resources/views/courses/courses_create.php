@@ -1,33 +1,6 @@
 <?php
-session_start();
 $page_title = "Créer un nouveau cours";
-include_once '../layout/header.php';
-require_once '../../database/config/config.php';
-require_once '../../core/courses.php';
-$levels = ["Débutant", "Intermédiaire", "Avancé"];
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST["title"];
-    $description = $_POST["description"];
-    $level = $_POST["level"];
-    if (!empty($title) && !empty($description) && !empty($level)) {
-        if(in_array($level,$levels)){
-
-            if (createCourse($mysqli, $title, $description, $level)) {
-                $_SESSION["message"] = "Ajouter Le course est success.";
-                header("Location: courses_list.php");
-                exit();
-            } else {
-                $error_message = "Erreur lors de la création de le course.";
-            }
-        }else{
-             $error_message = "Level qui choisir n'est pas exect.";
-        }
-
-    } else {
-        $error_message = "Tous les champs sont requis.";
-    }
-}
-
+include_once './resources/views/layouts/header.php';
 ?>
 
 <div class="container mx-auto px-4 sm:px-8 max-w-3xl">
@@ -47,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         <?php endif; ?>
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form id="myForm" action="#" method="POST" enctype="multipart/form-data">
+            <form id="myForm" action="/course/store" method="POST" enctype="multipart/form-data">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                         <div class="grid grid-cols-3 gap-6">
@@ -127,4 +100,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     })
 </script>
-<?php include_once '../layout/footer.php'; ?>
+<?php include_once './resources/views/layouts/footer.php';?>
