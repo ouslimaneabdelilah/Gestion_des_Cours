@@ -48,6 +48,9 @@ if (isset($_SESSION["message"])) {
                                 Titre
                             </th>
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                Image
+                            </th>
+                            <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                                 Description
                             </th>
                             <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -66,6 +69,9 @@ if (isset($_SESSION["message"])) {
                                         <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course['title']) ?></p>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <img src="/public/uploads/<?= $course['image'] ?>" width="150">
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course['description']) ?></p>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -75,9 +81,9 @@ if (isset($_SESSION["message"])) {
                                         </span>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <a href="course/edit?id=<?= $course['id'] ?>" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
-                                        <a href="course/confirmDelete?id=<?= $course['id'] ?>" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
-                                        <a href="../sections/sections_by_course.php?id=<?= $course['id'] ?>" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
+                                        <a href="course/<?= $course['id'] ?>/edit" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
+                                        <a href="course/<?= $course['id'] ?>/delete" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
+                                        <a href="course/<?= $course['id'] ?>/sectionsbycourse" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
