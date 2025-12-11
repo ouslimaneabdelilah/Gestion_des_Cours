@@ -1,18 +1,6 @@
 <?php
-session_start();
 $page_title = "Sections du Cours";
-require_once '../../database/config/config.php';
-require_once '../../core/sections.php';
-require_once '../../core/courses.php';
-include_once '../layout/header.php';
-
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header("Location: ../courses/courses_list.php");
-    exit();
-}
-
-$course_id = $_GET['id'];
-$sections = getSectionsByCourse($mysqli, $course_id);
+require_once "./resources/views/layouts/header.php";
 $course_title = !empty($sections) ? $sections[0]['course_title'] : "Cours non trouvé";
 
 ?>
@@ -20,7 +8,7 @@ $course_title = !empty($sections) ? $sections[0]['course_title'] : "Cours non tr
 <div class="container mx-auto px-4 sm:px-8">
     <div class="py-8">
         <div>
-            <a href="../courses/courses_list.php" class="text-indigo-600 hover:text-indigo-900 mb-4 inline-block">&larr; Retour à la liste des cours</a>
+            <a href="/courses" class="text-indigo-600 hover:text-indigo-900 mb-4 inline-block">&larr; Retour à la liste des cours</a>
             <h2 class="text-2xl font-semibold leading-tight">Sections pour le cours : "<?= htmlspecialchars($course_title) ?>"</h2>
         </div>
         <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
@@ -36,6 +24,7 @@ $course_title = !empty($sections) ? $sections[0]['course_title'] : "Cours non tr
                     <tbody>
                         <?php if (!empty($sections)) : ?>
                             <?php foreach ($sections as $section) : ?>
+                                <?= print_r($section); ?>
                                 <tr>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($section['position']) ?></p>
@@ -62,4 +51,4 @@ $course_title = !empty($sections) ? $sections[0]['course_title'] : "Cours non tr
     </div>
 </div>
 
-<?php include_once '../layout/footer.php'; ?>
+<?php require_once "./resources/views/layouts/footer.php"; ?>

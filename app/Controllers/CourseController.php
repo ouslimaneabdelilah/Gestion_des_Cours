@@ -27,6 +27,16 @@ class CourseController
         $levels = ["Débutant", "Intermédiaire", "Avancé"];
         include "./resources/views/courses/courses_create.php";
     }
+    // show sections 
+    public function showSections($id)
+    {
+        if (!$id) {
+            header("Location: /courses");
+            exit();
+        }
+        $sections = $this->courseModel->getSections($id);
+        include "./resources/views/sections/sections_by_course.php";
+    }
 
     // ajouter un course 
     public function store()
@@ -146,9 +156,9 @@ class CourseController
             exit();
         }
 
-        
+
         if (!$id) {
-            
+
             header("Location: /courses");
             exit();
         }
