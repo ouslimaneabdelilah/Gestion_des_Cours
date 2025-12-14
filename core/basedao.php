@@ -29,5 +29,18 @@ abstract class BaseDAO{
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($values);
     }
+    public function findAll(){
+       $stmt = $this->pdo->prepare("SELECT * FROM {$this->tableName}");
+       return $stmt->fetchAll(PDO::FETCH_CLASS,$this->className);
+    }
+    public function delete($id){
+        $stmt = $this->pdo->prepare("DELETE FROM {$this->tableName} WHERE id = ?");
+        return $stmt->execute($id);
+    }
+    public function find($id){
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->tableName} WHERE id = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetchObject($this->className);
+    }
 }
 ?>
