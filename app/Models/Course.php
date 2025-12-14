@@ -1,61 +1,46 @@
 <?php
-require_once "./app/Database/Database.php";
 class Course
 {
-    private $pdo;
+    private $id;
+    private $title;
+    private $image;
+    private $description;
+    private $level;
 
-    public function __construct()
+    public function __construct($title = null,$description = null, $level = null, $image=null)
     {
-        $db = new Database();
-        $this->pdo = $db->getConnection();
+        $this->title = $title;
+        $this->description = $description;
+        $this->image = $image;
+        $this->level = $level;
     }
-    public function all()
-    {
-        $stm = $this->pdo->prepare("SELECT * FROM courses");
-        $stm->execute();
-        return $stm->fetchAll();
+    public function setTitle($title){
+        $this->title = $title;
     }
-    public function find($id)
-    {
-        $stm = $this->pdo->prepare("SELECT * FROM courses WHERE id = :id");
-        $stm->bindParam(":id", $id, PDO::PARAM_INT);
-        $stm->execute();
-        return $stm->fetch();
+    public function setdescription($description){
+        $this->description = $description;
     }
-    public function create($title, $description, $level, $image)
-    {
-        $stm = $this->pdo->prepare("INSERT INTO courses (title, description, level,image) VALUES (:title, :description, :level,:image)");
-        $stm->bindParam(":title", $title, PDO::PARAM_STR);
-        $stm->bindParam(":description", $description, PDO::PARAM_STR);
-        $stm->bindParam(":level", $level, PDO::PARAM_STR);
-        $stm->bindParam(":image", $image, PDO::PARAM_STR);
-        return $stm->execute();
+    public function setImage($image){
+        $this->image = $image;
     }
-    public function update($id, $title, $description, $level, $image)
-    {
-        $stm = $this->pdo->prepare("UPDATE courses SET title =:title, description=:description, level = :level, image= :image WHERE id=:id");
-        $stm->bindParam(":id", $id, PDO::PARAM_STR);
-        $stm->bindParam(":title", $title, PDO::PARAM_STR);
-        $stm->bindParam(":description", $description, PDO::PARAM_STR);
-        $stm->bindParam(":image", $image, PDO::PARAM_STR);
-
-        $stm->bindParam(":level", $level, PDO::PARAM_STR);
-        return $stm->execute();;
+    public function setLevel($level){
+        $this->level = $level;
     }
-    public function delete($id)
-    {
-        $stm = $this->pdo->prepare("DELETE FROM courses WHERE id = :id");
-        $stm->bindParam(":id", $id, PDO::PARAM_INT);
-        return $stm->execute();;
+    public function getId(){
+        return $this->id;
     }
-    public function getSections($courseId)
-    {
-        $stm = $this->pdo->prepare("SELECT c.title as course_title, s.* 
-        FROM sections s 
-        INNER JOIN courses c ON s.course_id = c.id
-        WHERE s.course_id = :course_id");
-        $stm->bindParam(":course_id", $courseId, PDO::PARAM_INT);
-        $stm->execute();
-        return $stm->fetchAll();
+    public function getImage(){
+        return $this->image;
     }
+    public function getDescription(){
+        return $this->description;
+    }
+    public function getLevel(){
+        return $this->level;
+    }
+    public function getTitle(){
+        return $this->title;
+    }
+    
+    
 }
