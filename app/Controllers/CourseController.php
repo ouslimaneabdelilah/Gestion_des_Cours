@@ -1,5 +1,7 @@
 <?php
 require_once "./app/Models/Course.php";
+require_once "./app/Database/Database.php";
+
 class CourseController
 {
     private $courseModel;
@@ -7,7 +9,9 @@ class CourseController
 
     public function __construct()
     {
-        $this->courseModel = new Course();
+        $db = new Database();
+        $pdo = $db->getConnection();
+        $this->courseModel = new Course($pdo);
     }
 
 
@@ -41,7 +45,6 @@ class CourseController
     // ajouter un course 
     public function store()
     {
-        print_r($_POST);
         $levels = $this->levels;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = trim($_POST["title"]);

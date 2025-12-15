@@ -1,13 +1,11 @@
 <?php
-require_once "./app/Database/Database.php";
 class Section
 {
     private $pdo;
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
-        $db = new Database();
-        $this->pdo = $db->getConnection();
+        $this->pdo = $pdo;
     }
     public function all()
     {
@@ -38,7 +36,7 @@ class Section
         $stm->bindParam(":course_id", $course_id, PDO::PARAM_INT);
         $stm->bindParam(":title", $title, PDO::PARAM_STR);
         $stm->bindParam(":content", $content, PDO::PARAM_STR);
-        $stm->bindParam(":position", $position, PDO::PARAM_STR);
+        $stm->bindParam(":position", $position, PDO::PARAM_STR); 
         return $stm->execute();
     }
 

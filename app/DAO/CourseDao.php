@@ -12,7 +12,7 @@ class CourseDAO extends BaseDAO{
                 WHERE s.course_id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$courseId]);
-        return $stmt->fetchAll(PDO::FETCH_CLASS,"Course");
+        return $stmt->fetchAll(PDO::FETCH_CLASS,Course::class);
     }
 }
 ?>

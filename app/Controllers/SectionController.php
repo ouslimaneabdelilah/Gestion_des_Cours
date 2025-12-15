@@ -1,14 +1,18 @@
 <?php
 require_once "./app/Models/Section.php";
 require_once "./app/Models/Course.php";
+require_once "./app/Database/Database.php";
+
 class SectionController
 {
     private $sectionModel;
     private $courseModal;
     public function __construct()
     {
-        $this->sectionModel = new Section();
-        $this->courseModal = new Course();
+        $db = new Database();
+        $pdo = $db->getConnection();
+        $this->sectionModel = new Section($pdo);
+        $this->courseModal = new Course($pdo);
     }
 
     public function index()
