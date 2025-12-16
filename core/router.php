@@ -20,19 +20,17 @@ class Router
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $path = trim($path, '/');
         
-        // البحث عن route مطابق مباشرة
         if (isset($this->routes[$method][$path])) {
             $this->executeRoute($this->routes[$method][$path], $method);
             return;
         }
         
-        // البحث عن route بمعاملات ديناميكية
         foreach ($this->routes[$method] as $route => $action) {
             $pattern = preg_replace('/\{[^\}]+\}/', '([^/]+)', $route);
             $pattern = "#^" . $pattern . "$#";
             
             if (preg_match($pattern, $path, $matches)) {
-                array_shift($matches); // إزالة المطابقة الكاملة
+                array_shift($matches);
                 $this->executeRoute($action, $method, $matches);
                 return;
             }
