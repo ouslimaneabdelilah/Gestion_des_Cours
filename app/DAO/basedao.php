@@ -1,4 +1,5 @@
 <?php
+namespace App\Dao;
 abstract class BaseDAO
 {
     protected $pdo;
@@ -13,7 +14,7 @@ abstract class BaseDAO
 
     public function save($obj)
     {
-        $refelction = new ReflectionClass($obj);
+        $refelction = new \ReflectionClass($obj);
         $props = $refelction->getProperties();
         $columns = [];
         $values = [];
@@ -33,8 +34,10 @@ abstract class BaseDAO
     }
     public function findAll()
     {
+        echo "{$this->tableName}";
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->tableName}");
-        return $stmt->fetchAll(PDO::FETCH_CLASS, $this->className);
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, $this->className);
     }
     public function delete($id)
     {
@@ -49,7 +52,7 @@ abstract class BaseDAO
     }
     public function update($obj)
     {
-        $refelction = new ReflectionClass($obj);
+        $refelction = new \ReflectionClass($obj);
         $props = $refelction->getProperties();
         $params = [];
         $values = [];
