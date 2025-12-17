@@ -1,6 +1,7 @@
 <?php
 session_start();
-require "./core/router.php";
+require_once "./Core/kernel/Autoloading.php";
+use Core\Router;
 $router = new Router();
 require "./routes/web.php";
 
