@@ -1,6 +1,8 @@
 <?php
-require_once "./app/Models/Course.php";
-require_once "./app/Database/Database.php";
+namespace App\Controllers;
+use App\Database\Database;
+use App\Dao\CourseDAO;
+use App\Models\Course;
 
 class CourseController
 {
@@ -11,7 +13,7 @@ class CourseController
     {
         $db = new Database();
         $pdo = $db->getConnection();
-        $this->courseModel = new Course($pdo);
+        $this->courseModel = new CourseDAO($pdo);
     }
 
 
@@ -19,7 +21,8 @@ class CourseController
     public function index()
     {
 
-        $courses = $this->courseModel->all();
+        $courses = $this->courseModel->findAll();
+        print_r($courses);
         include "./resources/views/courses/courses_list.php";
     }
 
@@ -28,7 +31,7 @@ class CourseController
     public function create()
     {
 
-        $levels = ["Débutant", "Intermédiaire", "Avancé"];
+        $levels = $this->levels;
         include "./resources/views/courses/courses_create.php";
     }
     // show sections 
@@ -45,6 +48,7 @@ class CourseController
     // ajouter un course 
     public function store()
     {
+        
         $levels = $this->levels;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = trim($_POST["title"]);
@@ -73,8 +77,8 @@ class CourseController
             }
 
 
-
-            $this->courseModel->create($title, $description, $level, $imageName);
+            $course = new Course($title, $description, $level, $imageName);
+            $this->courseModel->save($course);
             $_SESSION["message"] = "Le cours a été ajouté avec succès.";
             header("Location: /courses");
             exit();
@@ -133,8 +137,9 @@ class CourseController
         } else {
             $imageName = $course["image"];
         }
+         $courseIns = new Course($title, $description, $level, $imageName);
 
-        $this->courseModel->update($id, $title, $description, $level, $imageName);
+        $this->courseModel->update($courseIns);
         $_SESSION["message"] = "Modification réussie.";
         header("Location: /courses");
         exit;
