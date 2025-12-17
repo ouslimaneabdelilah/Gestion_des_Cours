@@ -1,12 +1,26 @@
-<?php 
-require_once "./app/DAO/CourseDao.php";
-class CourseService{
-    private $courseDAO;
-    public function __construct(CourseDAO $courseDAO)
-    {
-        $this->courseDAO = $courseDAO;
-    }
+<?php
 
-}
+// namespace App\Services;
 
-?>
+// use App\Dao\CourseDAO;
+
+// class CourseService
+// {
+//     // private $courseDAO;
+//     // private $levels = ["Débutant", "Intermédiaire", "Avancé"];
+
+//     // public function __construct(CourseDAO $courseDAO)
+//     // {
+//     //     $this->courseDAO = $courseDAO;
+//     // }
+
+//     // public function index()
+//     // {
+//     //     $courses = $this->courseDAO->findAll();
+//     // }
+
+//     // public function create() {
+//     //     $levels=$this->levels;
+        
+//     // }
+// }

@@ -1,5 +1,5 @@
 <?php
-
+namespace Core;
 class Router
 {
     private $routes = [];
@@ -44,9 +44,9 @@ class Router
     {
         if (is_string($action)) {
             [$controllerName, $methodName] = explode('@', $action);
-            require_once "./app/Controllers/" . $controllerName . ".php";
+            $nameFullClass =  "App\\Controllers\\" .$controllerName;
             
-            $controller = new $controllerName;
+            $controller = new $nameFullClass;
             
             if ($method === "GET") {
                 $id = $params[0] ?? $_GET['id'] ?? null;

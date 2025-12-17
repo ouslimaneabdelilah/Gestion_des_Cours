@@ -22,7 +22,6 @@ class CourseController
     {
 
         $courses = $this->courseModel->findAll();
-        print_r($courses);
         include "./resources/views/courses/courses_list.php";
     }
 

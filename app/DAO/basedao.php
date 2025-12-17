@@ -34,10 +34,9 @@ abstract class BaseDAO
     }
     public function findAll()
     {
-        echo "{$this->tableName}";
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->tableName}");
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_CLASS, $this->className);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
     public function delete($id)
     {
@@ -48,7 +47,7 @@ abstract class BaseDAO
     {
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->tableName} WHERE id = ?");
         $stmt->execute([$id]);
-        return $stmt->fetchObject($this->className);
+        return $stmt->fetch();
     }
     public function update($obj)
     {

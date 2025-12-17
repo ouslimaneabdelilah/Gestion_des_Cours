@@ -1,8 +1,10 @@
 <?php
-require_once "./app/Models/Section.php";
-require_once "./app/Models/Course.php";
-require_once "./app/Database/Database.php";
-
+namespace App\Controllers;
+use App\Database\Database;
+use App\Models\Course;
+use App\Models\Section;
+use App\Dao\SectionDAO;
+use App\Dao\CourseDAO;
 class SectionController
 {
     private $sectionModel;
@@ -11,19 +13,20 @@ class SectionController
     {
         $db = new Database();
         $pdo = $db->getConnection();
-        $this->sectionModel = new Section($pdo);
-        $this->courseModal = new Course($pdo);
+        $this->sectionModel = new SectionDAO($pdo);
+        $this->courseModal = new CourseDAO($pdo);
+        
     }
 
     public function index()
     {
-        $sections = $this->sectionModel->all();
+        $sections = $this->sectionModel->findAll();
         include "./resources/views/sections/sections_list.php";
     }
 
     public function create()
     {
-        $courses = $this->courseModal->all();
+        $courses = $this->courseModal->findAll();
         include "./resources/views/sections/sections_create.php";
     }
     public function store()
@@ -42,7 +45,8 @@ class SectionController
 
         }
         $_SESSION["message"] = "La section a été créée avec succès.";
-        $this->sectionModel->create($course_id, $title, $content, $position);
+        $section = new Section($course_id, $title, $content, $position);
+        $this->sectionModel->save($section);
         header("Location:/sections");
     }
 
@@ -86,7 +90,6 @@ class SectionController
             header("Location: /sections");
             exit();
         }
-        print_r($course_id);
         $this->sectionModel->update($id, $course_id, $title, $content, $position);
         $_SESSION["message"] = "La  modification de section est sucess.";
         header("Location: /sections");

@@ -24,7 +24,6 @@ $course_title = !empty($sections) ? $sections[0]['course_title'] : "Cours non tr
                     <tbody>
                         <?php if (!empty($sections)) : ?>
                             <?php foreach ($sections as $section) : ?>
-                                <?= print_r($section); ?>
                                 <tr>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($section['position']) ?></p>

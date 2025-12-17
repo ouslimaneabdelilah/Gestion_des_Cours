@@ -1,10 +1,11 @@
 <?php 
-require_once "basedao.php";
-require_once "./app/Models/Course.php";
+namespace App\Dao;
+use App\Dao\BaseDAO;
+use App\Models\Course;
 class CourseDAO extends BaseDAO{
     public function __construct($pdo)
     {
-        return parent::__construct($pdo, "Course", "courses");
+        parent::__construct($pdo, Course::class, "courses");
     }
     public function getSections($courseId) {
         $sql = "SELECT c.title as course_title, s.* FROM sections s 
@@ -12,7 +13,7 @@ class CourseDAO extends BaseDAO{
                 WHERE s.course_id = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$courseId]);
-        return $stmt->fetchAll(PDO::FETCH_CLASS,Course::class);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }
 ?>
