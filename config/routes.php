@@ -1,21 +1,21 @@
 <?php
 // routes courses
-namespace Core;
-$router->get('', 'CourseController@index');
-$router->get('courses', 'CourseController@index');
-$router->get('course/create', 'CourseController@create');
-$router->get('course/{id}/edit', 'CourseController@edit');
-$router->get('course/{id}/delete', 'CourseController@confirmDelete');
-$router->post('course/store', 'CourseController@store');
-$router->get('course/{id}/sectionsbycourse', 'CourseController@showSections');
-$router->post('course/{id}/update', 'CourseController@update');
-$router->post('course/{id}/delete', 'CourseController@destroy');
+namespace Config;
+$router->add("GET","", 'CourseController@index');
+$router->add('GET','courses', 'CourseController@index');
+$router->add('GET','course/create', 'CourseController@create');
+$router->add('GET','course/{id}/edit', 'CourseController@edit');
+$router->add('GET','course/{id}/delete', 'CourseController@confirmDelete');
+$router->add('POST','course/store', 'CourseController@store');
+$router->add('GET','course/{id}/sectionsbycourse', 'CourseController@showSections');
+$router->add('POST','course/{id}/update', 'CourseController@update');
+$router->add('POST','course/{id}/delete', 'CourseController@destroy');
 // routes sections
-$router->get('sections', 'SectionController@index');
-$router->get('section/create', 'SectionController@create');
-$router->get('section/{id}/edit', 'SectionController@edit');
-$router->get('section/{id}/delete', 'SectionController@confirmDelete');
-$router->post('section/store', 'SectionController@store');
-$router->post('section/{id}/update', 'SectionController@update');
-$router->post('section/{id}/delete', 'SectionController@destroy');
+$router->add('GET','sections', 'SectionController@index');
+$router->add('GET','section/create', 'SectionController@create');
+$router->add('GET','section/{id}/edit', 'SectionController@edit');
+$router->add('GET','section/{id}/delete', 'SectionController@confirmDelete');
+$router->add('POST','section/store', 'SectionController@store');
+$router->add('POST','section/{id}/update', 'SectionController@update');
+$router->add('POST','section/{id}/delete', 'SectionController@destroy');
 ?>
