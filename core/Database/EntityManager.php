@@ -1,6 +1,6 @@
 <?php
 namespace App\Dao;
-abstract class BaseDAO
+abstract class EntityManager
 {
     protected $pdo;
     protected $tableName;
@@ -21,7 +21,7 @@ abstract class BaseDAO
         $params = [];
         foreach ($props as $prop) {
             $name = $prop->getName();
-            $value = $prop->getValue();
+            $value = $prop->getValue($obj);
             if ($name !== 'id' && $value !== null) {
                 $columns[] = $name;
                 $values[] = $value;
@@ -36,7 +36,7 @@ abstract class BaseDAO
     {
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->tableName}");
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->className);
     }
     public function delete($id)
     {
@@ -47,7 +47,7 @@ abstract class BaseDAO
     {
         $stmt = $this->pdo->prepare("SELECT * FROM {$this->tableName} WHERE id = ?");
         $stmt->execute([$id]);
-        return $stmt->fetch();
+        return $stmt->fetchObject($this->className);
     }
     public function update($obj)
     {
@@ -58,7 +58,7 @@ abstract class BaseDAO
         $id = null;
         foreach ($props as $prop) {
             $name = $prop->getName();
-            $value = $prop->getValue();
+            $value = $prop->getValue($obj);
             if ($name === 'id') {
                 $id = $value;
             } elseif ($value !== null) {
