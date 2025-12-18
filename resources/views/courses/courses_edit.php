@@ -20,14 +20,14 @@ include_once './resources/views/layouts/header.php';
             </div>
         <?php endif; ?>
         <div class="mt-5 md:mt-0 md:col-span-2">
-            <form action="/course/<?= $course["id"] ?>/update" method="POST" id="myForm" enctype="multipart/form-data">
+            <form action="/course/<?= $course->id?>/update" method="POST" id="myForm" enctype="multipart/form-data">
                 <div class="shadow sm:rounded-md sm:overflow-hidden">
                     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
                         <div class="grid grid-cols-3 gap-6">
                             <div class="col-span-3">
                                 <label for="title" class="block text-sm font-medium text-gray-700">Titre du cours</label>
                                 <div class="mt-1 flex rounded-md shadow-sm">
-                                    <input type="text" value="<?= $course["title"] ?>" name="title" id="title" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
+                                    <input type="text" value="<?= $course->title ?>" name="title" id="title" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300">
                                 </div>
                             </div>
                         </div>
@@ -35,7 +35,7 @@ include_once './resources/views/layouts/header.php';
                             <div class="col-span-3">
                                 <label for="title" class="block text-sm font-medium text-gray-700">Image</label>
                                 <div class="mt-1 flex rounded-md shadow-sm">
-                                        <img src="/public/uploads/<?= $course['image'] ?>" width="150">
+                                        <img src="/public/uploads/<?= $course->image ?>" width="150">
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@ include_once './resources/views/layouts/header.php';
                         <div>
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                             <div class="mt-1">
-                                <textarea id="description" name="description" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"><?= $course["description"] ?></textarea>
+                                <textarea id="description" name="description" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"><?= $course->description ?></textarea>
                             </div>
                         </div>
 
@@ -57,7 +57,7 @@ include_once './resources/views/layouts/header.php';
                             <label for="level" class="block text-sm font-medium text-gray-700">Niveau</label>
                             <select id="level" name="level" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <?php foreach ($levels as $level): ?>
-                                    <option value="<?= $level ?>" <?= $level === $course["level"] ? "selected" : "" ?>><?= $level ?></option>
+                                    <option value="<?= $level ?>" <?= $level === $course->level ? "selected" : "" ?>><?= $level ?></option>
                                 <?php endforeach ?>
                             </select>
                         </div>

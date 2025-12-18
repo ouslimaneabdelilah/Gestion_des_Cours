@@ -66,24 +66,24 @@ if (isset($_SESSION["message"])) {
                             <?php foreach ($courses as $course) : ?>
                                 <tr>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course['title']) ?></p>
+                                        <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course->title) ?></p>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <img src="/public/uploads/<?= $course['image'] ?>" width="150">
+                                        <img src="/public/uploads/<?= $course->image?>" width="150">
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course['description']) ?></p>
+                                        <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course->description) ?></p>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
                                             <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                            <span class="relative"><?= htmlspecialchars($course['level']) ?></span>
+                                            <span class="relative"><?= htmlspecialchars($course->level) ?></span>
                                         </span>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <a href="course/<?= $course['id'] ?>/edit" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
-                                        <a href="course/<?= $course['id'] ?>/delete" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
-                                        <a href="course/<?= $course['id'] ?>/sectionsbycourse" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
+                                        <a href="course/<?= $course->id ?>/edit" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
+                                        <a href="course/<?= $course->id ?>/delete" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
+                                        <a href="course/<?= $course->id ?>/sectionsbycourse" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
