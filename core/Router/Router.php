@@ -1,17 +1,15 @@
 <?php
-namespace Core;
+namespace Core\Router;
+
+use Core\Router\ControllerResolver;
+use Core\Router\Route;
+
 class Router
 {
     private $routes = [];
     
-    public function get($path, $callback)
-    {
-        $this->routes["GET"][$path] = $callback;
-    }
-    
-    public function post($path, $callback)
-    {
-        $this->routes["POST"][$path] = $callback;
+    public function add($method,$path,$action){
+        $this->routes[] = new Route($method,$path,$action);
     }
     
     public function run()
@@ -19,20 +17,14 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
         $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $path = trim($path, '/');
-        
-        if (isset($this->routes[$method][$path])) {
-            $this->executeRoute($this->routes[$method][$path], $method);
-            return;
-        }
-        
-        foreach ($this->routes[$method] as $route => $action) {
+        foreach ($this->routes as $route) {
             $pattern = preg_replace('/\{[^\}]+\}/', '([^/]+)', $route);
             $pattern = "#^" . $pattern . "$#";
             
             if (preg_match($pattern, $path, $matches)) {
                 array_shift($matches);
-                $this->executeRoute($action, $method, $matches);
-                return;
+                $resolver = new ControllerResolver();
+                return $resolver->resolve($route->action,$matches);
             }
         }
         
@@ -40,26 +32,6 @@ class Router
         echo "404 page not found";
     }
     
-    private function executeRoute($action, $method, $params = [])
-    {
-        if (is_string($action)) {
-            [$controllerName, $methodName] = explode('@', $action);
-            $nameFullClass =  "App\\Controllers\\" .$controllerName;
-            
-            $controller = new $nameFullClass;
-            
-            if ($method === "GET") {
-                $id = $params[0] ?? $_GET['id'] ?? null;
-                return $controller->$methodName($id);
-            }
-            
-            if ($method === "POST") {
-                return $controller->$methodName($params[0] ?? null, $_POST);
-            }
-        }
-        
-        return call_user_func_array($action, $params);
-    }
 }
 
 
