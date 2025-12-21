@@ -1,5 +1,7 @@
 <?php
 namespace App\Models;
+use AllowDynamicProperties;
+#[AllowDynamicProperties]
 class Section
 {
     public $id;
@@ -7,9 +9,9 @@ class Section
     public $title;
     public $content;
     public $position;
-    public $course_title;   
-    public function __construct($course_id = null,$title=null,$content=null,$position=null)
+    public function __construct($id=null,$course_id = null,$title=null,$content=null,$position=null)
     {
+        $this->id= $id;
         $this->course_id = $course_id;
         $this->title = $title;
         $this->content = $content;

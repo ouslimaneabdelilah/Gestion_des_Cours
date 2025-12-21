@@ -1,53 +1,68 @@
 <?php
 namespace App\Controllers;
-use App\Database\Database;
-use App\Models\Course;
+
 use App\Models\Section;
-use App\Dao\SectionDAO;
-use App\Dao\CourseDAO;
+use App\Models\Course;
+use App\Repositories\SectionRepository;
+use App\Repositories\CourseRepository;
+
 class SectionController
 {
-    private $sectionModel;
-    private $courseModal;
-    public function __construct()
+    private $sectionRepo;
+    private $courseRepo;
+
+    public function __construct(SectionRepository $sectionRepo, CourseRepository $courseRepo)
     {
-        $db = new Database();
-        $pdo = $db->getConnection();
-        $this->sectionModel = new SectionDAO($pdo);
-        $this->courseModal = new CourseDAO($pdo);
-        
+        $this->sectionRepo = $sectionRepo;
+        $this->courseRepo = $courseRepo;
     }
 
     public function index()
     {
-        $sections = $this->sectionModel->findAll();
+        $sections = $this->sectionRepo->getAllWithCourse();
+       
         include "./resources/views/sections/sections_list.php";
     }
 
     public function create()
     {
-        $courses = $this->courseModal->findAll();
+        $courses = $this->courseRepo->all();
         include "./resources/views/sections/sections_create.php";
     }
+
     public function store()
     {
-        $course_id = $_POST["course_id"];
-        $title = $_POST["title"];
-        $content = $_POST["content"];
-        $position = $_POST["position"];
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header("Location: /sections");
             exit();
         }
-        if($position === "" || $title === "" || $content === "" || $course_id === ""){
-            $error_message = "Tous les champs sont requis.";
-            return;
 
+        $course_id = $_POST["course_id"];
+        $title = $_POST["title"];
+        $content = $_POST["content"];
+        $position = $_POST["position"];
+
+        if ($position === "" || $title === "" || $content === "" || $course_id === "") {
+            $courses = $this->courseRepo->all();
+            $error_message = "Tous les champs sont requis.";
+            include "./resources/views/sections/sections_create.php";
+            return;
         }
+
+        if ($this->sectionRepo->checkPosition(0, $course_id, $position)) {
+            $courses = $this->courseRepo->all();
+            $error_message = "La position est déjà occupée pour ce cours.";
+            include "./resources/views/sections/sections_create.php";
+            return;
+        }
+
+        $section = new Section($title, $course_id, $position);
+        $section->content = $content;
+        $this->sectionRepo->insert($section);
+        
         $_SESSION["message"] = "La section a été créée avec succès.";
-        $section = new Section($course_id, $title, $content, $position);
-        $this->sectionModel->save($section);
-        header("Location:/sections");
+        header("Location: /sections");
+        exit();
     }
 
     public function edit($id)
@@ -56,8 +71,10 @@ class SectionController
             header("Location: /sections");
             exit();
         }
-        $section = $this->sectionModel->find($id);
-        $courses = $this->courseModal->all();
+
+        $section = $this->sectionRepo->getsectionWithCourse($id);
+        $courses = $this->courseRepo->all();
+
         if (!$section) {
             $_SESSION['message'] = "Section introuvable.";
             header("Location: /sections");
@@ -66,47 +83,45 @@ class SectionController
 
         include "./resources/views/sections/sections_edit.php";
     }
+
     public function update($id)
     {
-        $course_id = $_POST["course_id"];
+        if (!$id || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("Location: /sections");
+            exit();
+        }
+
+        $title = $_POST["title"];
         $content = $_POST["content"];
         $position = $_POST["position"];
-        $title = $_POST["title"];
         $course_id = $_POST["course_id"];
-        if (!$id) {
-            header("Location: /sections");
-            exit();
-        }
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: /sections");
-            exit();
-        }
-        $checkPosition = $this->sectionModel->checkPostion($id, $course_id, $position);
-        if ($checkPosition) {
-            $error_message = "S'il vous plait le position deja affecte pour un other course";
-        }
-        if ($course_id === "" || $content === "" || $title === "" || $position === "") {
-            $error_message = "Tous les champs sont requis.";
-            header("Location: /sections");
-            exit();
-        }
-        $this->sectionModel->update($id, $course_id, $title, $content, $position);
-        $_SESSION["message"] = "La  modification de section est sucess.";
-        header("Location: /sections");
-    }
 
+        if ($this->sectionRepo->checkPosition($id, $course_id, $position)) {
+            $section = $this->sectionRepo->getsectionWithCourse($id);
+            $courses = $this->courseRepo->all();
+            $error_message = "S'il vous plaît, la position est déjà affectée.";
+            include "./resources/views/sections/sections_edit.php";
+            return;
+        }
+
+        $section = new Section($id, $course_id,$title,$content, $position); 
+        $this->sectionRepo->update($section);
+
+        $_SESSION["message"] = "La modification de section est réussie.";
+        header("Location: /sections");
+        exit();
+    }
 
     public function confirmDelete($id)
     {
-        $section = $this->sectionModel->find($id);
+        $section = $this->sectionRepo->find($id);
         if (!$section) {
             $_SESSION['message'] = "Section introuvable.";
-            header("Location: /section");
-            exit;
+            header("Location: /sections");
+            exit();
         }
         include "./resources/views/sections/sections_delete.php";
     }
-
 
     public function destroy($id)
     {
@@ -114,8 +129,9 @@ class SectionController
             header("Location: /sections");
             exit();
         }
-        $_SESSION["message"] = "Succes! La section est supprimer.";
-        $this->sectionModel->delete($id);
-        header("Location:/sections");
+        $this->sectionRepo->delete($id);
+        $_SESSION["message"] = "Succès! La section est supprimée.";
+        header("Location: /sections");
+        exit();
     }
 }

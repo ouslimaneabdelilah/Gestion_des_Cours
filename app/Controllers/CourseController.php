@@ -1,19 +1,19 @@
 <?php
+
 namespace App\Controllers;
-use App\Database\Database;
-use App\Dao\CourseDAO;
+
 use App\Models\Course;
+use App\Repositories\CourseRepository;
 
 class CourseController
 {
-    private $courseModel;
+    private $repo;
     private $levels = ["Débutant", "Intermédiaire", "Avancé"];
 
-    public function __construct()
+
+    public function __construct(CourseRepository $repo)
     {
-        $db = new Database();
-        $pdo = $db->getConnection();
-        $this->courseModel = new CourseDAO($pdo);
+        $this->repo = $repo;
     }
 
 
@@ -21,12 +21,11 @@ class CourseController
     public function index()
     {
 
-        $courses = $this->courseModel->findAll();
+        $courses = $this->repo->all(Course::class);
         include "./resources/views/courses/courses_list.php";
     }
 
 
-    // envoyer a la page de create
     public function create()
     {
 
@@ -40,14 +39,14 @@ class CourseController
             header("Location: /courses");
             exit();
         }
-        $sections = $this->courseModel->getSections($id);
+        $sections = $this->repo->getSections($id);
         include "./resources/views/sections/sections_by_course.php";
     }
 
     // ajouter un course 
     public function store()
     {
-        
+
         $levels = $this->levels;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $title = trim($_POST["title"]);
@@ -77,7 +76,7 @@ class CourseController
 
 
             $course = new Course($title, $description, $level, $imageName);
-            $this->courseModel->save($course);
+            $this->repo->insert($course);
             $_SESSION["message"] = "Le cours a été ajouté avec succès.";
             header("Location: /courses");
             exit();
@@ -91,14 +90,12 @@ class CourseController
             header("Location: /courses");
             exit();
         }
-        $course = $this->courseModel->find($id);
+        $course = $this->repo->find($id);  
         if (!$course) {
             $_SESSION['message'] = "Cours introuvable.";
             header("Location: /courses");
             exit();
         }
-
-
         $levels = $this->levels;
         include "./resources/views/courses/courses_edit.php";
     }
@@ -106,7 +103,7 @@ class CourseController
     // update un course
     public function update($id)
     {
-        $course = $this->courseModel->find($id);
+        $course = $this->repo->find($id, Course::class);
         $levels = $this->levels;
         if ($_SERVER["REQUEST_METHOD"] !== "POST") {
             header("Location:/courses");
@@ -134,11 +131,10 @@ class CourseController
 
             move_uploaded_file($_FILES["image"]["tmp_name"], $destination);
         } else {
-            $imageName = $course["image"];
+            $imageName = $course->image;
         }
-         $courseIns = new Course($title, $description, $level, $imageName);
-
-        $this->courseModel->update($courseIns);
+        $courseIns = new Course($id, $title, $description, $level, $imageName);
+        $this->repo->update($courseIns);
         $_SESSION["message"] = "Modification réussie.";
         header("Location: /courses");
         exit;
@@ -147,7 +143,7 @@ class CourseController
 
     public function confirmDelete($id)
     {
-        $course = $this->courseModel->find($id);
+        $course = $this->repo->find($id);  
         if (!$course) {
             $_SESSION['message'] = "Cours introuvable.";
             header("Location: /courses");
@@ -163,15 +159,12 @@ class CourseController
             exit();
         }
 
-
         if (!$id) {
-
             header("Location: /courses");
             exit();
         }
 
-        $this->courseModel->delete($id);
-
+        $this->repo->delete($id);
         $_SESSION['message'] = "Succès! Le cours est supprimé.";
         header("Location: /courses");
         exit();
