@@ -1,6 +1,6 @@
 <?php
 namespace Core;
-use App\Core\Database\EntityManager;
+use Core\Database\EntityManager;
 use App\Database\Database;
 use Core\Router\Router;
 use Core\Container\ServiceContainer;
@@ -8,10 +8,12 @@ use Core\Container\ServiceContainer;
 class Kernel{
     public function handle(){
         $db = new Database();
-        $em = new EntityManager($db->getConnection());
+        $connection = $db->getConnection();
+        $em = new EntityManager($connection);
         $container  = ServiceContainer::getInstance();
-        $container->set('entity_test',$em);
-        $router = new \Core\Router\Router();
+        $container->set(\PDO::class, $connection); 
+        $container->set(EntityManager::class, $em);
+        $router = new Router();
         require_once "./config/routes.php";
         $router->run();
     }
