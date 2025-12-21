@@ -1,18 +1,26 @@
-<?php 
+<?php
+
 namespace Core\Container;
 
-class ServiceContainer{
+class ServiceContainer
+{
     private static $instance = null;
-    private $services=[];
-    public static function getInstance(){
-        if(self::$instance === null) self::$instance=new ServiceContainer();
+    private $services = [];
+    public static function getInstance()
+    {
+        if (self::$instance === null) self::$instance = new ServiceContainer();
         return self::$instance;
     }
-    public function set($name,$object){
+    public function set($name, $object)
+    {
         $this->services[$name] = $object;
     }
-    public function get($name){
+    public function get($name)
+    {
         return $this->services[$name] ?? null;
     }
+    public function has($name)
+    {
+        return isset($this->services[$name]);
+    }
 }
-?>
