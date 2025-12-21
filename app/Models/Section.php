@@ -2,11 +2,12 @@
 namespace App\Models;
 class Section
 {
-    private $id;
-    private $course_id;
-    private $title;
-    private $content;
-    private $position;
+    public $id;
+    public $course_id;
+    public $title;
+    public $content;
+    public $position;
+    public $course_title;   
     public function __construct($course_id = null,$title=null,$content=null,$position=null)
     {
         $this->course_id = $course_id;

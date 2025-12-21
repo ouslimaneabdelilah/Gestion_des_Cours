@@ -1,24 +1,23 @@
 <?php
-namespace App\Dao;
-abstract class EntityManager
+namespace Core\Database;
+class EntityManager
 {
     protected $pdo;
-    protected $tableName;
-    protected $className;
-    public function __construct($pdo, $className, $tableName)
+    
+    public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
-        $this->tableName = $tableName;
-        $this->className = $className;
+        
     }
 
     public function save($obj)
     {
         $refelction = new \ReflectionClass($obj);
+        $tableName = strtolower($refelction->getShortName())."s";
         $props = $refelction->getProperties();
+        $params = [];
         $columns = [];
         $values = [];
-        $params = [];
         foreach ($props as $prop) {
             $name = $prop->getName();
             $value = $prop->getValue($obj);
@@ -28,30 +27,40 @@ abstract class EntityManager
                 $params[] = "?";
             }
         }
-        $sql = "INSERT INTO {$this->tableName}(" . implode(",", $columns) . ") VALUES (" . implode("", $params) . ")";
+        $sql = "INSERT INTO {$tableName}(" . implode(",", $columns) . ") VALUES (" . implode("", $params) . ")";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($values);
     }
-    public function findAll()
+    public function findAll($className)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->tableName}");
+        $refelction = new \ReflectionClass($className);
+        $tableName = strtolower($refelction->getShortName())."s";
+        $stmt = $this->pdo->prepare("SELECT * FROM {$tableName}");
         $stmt->execute();
-        return $stmt->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $this->className);
+        
+        return $stmt->fetchAll(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $className);
     }
-    public function delete($id)
+    public function delete($id,$className)
     {
-        $stmt = $this->pdo->prepare("DELETE FROM {$this->tableName} WHERE id = ?");
-        return $stmt->execute($id);
+        $refelction = new \ReflectionClass($className);
+        $tableName = strtolower($refelction->getShortName())."s";
+        $stmt = $this->pdo->prepare("DELETE FROM {$tableName} WHERE id = ?");
+        return $stmt->execute([$id]);
     }
-    public function find($id)
+    public function find($id,$className)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->tableName} WHERE id = ?");
+        $refelction = new \ReflectionClass($className);
+        $tableName = strtolower($refelction->getShortName())."s";
+        $stmt = $this->pdo->prepare("SELECT * FROM {$tableName} WHERE id = ?");
+        $stmt->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $className);
         $stmt->execute([$id]);
-        return $stmt->fetchObject($this->className);
+        return $stmt->fetch();
     }
     public function update($obj)
     {
+        
         $refelction = new \ReflectionClass($obj);
+        $tableName = strtolower($refelction->getShortName())."s";
         $props = $refelction->getProperties();
         $params = [];
         $values = [];
@@ -66,8 +75,9 @@ abstract class EntityManager
                 $values[] = $value;
             }
         }
+        if($id === null) return false;
         $values[] = $id;
-        $sql = "UPDATE {$this->tableName} SET " . implode(",", $params) . "WHERE id = ?";
+        $sql = "UPDATE {$tableName} SET " . implode(", ", $params) . " WHERE id = ?";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($values);
     }
