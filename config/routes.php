@@ -22,7 +22,7 @@ $router->add('POST','course/{id}/delete', 'CourseController@destroy');
 $router->add('GET','sections', 'SectionController@index');
 $router->add('GET','section/create', 'SectionController@create');
 $router->add('GET','section/{id}/edit', 'SectionController@edit');
-$router->add('GET','section/{id}/delete', 'SectionController@confirmDelete');
+$router->add('GET','section/{id}/confirme', 'SectionController@confirmDelete');
 $router->add('POST','section/store', 'SectionController@store');
 $router->add('POST','section/{id}/update', 'SectionController@update');
 $router->add('POST','section/{id}/delete', 'SectionController@destroy');
