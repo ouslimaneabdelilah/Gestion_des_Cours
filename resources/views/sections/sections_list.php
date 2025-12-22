@@ -45,7 +45,7 @@ if (isset($_SESSION["message"])) {
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <a href="/section/<?= $section->id ?>/edit" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
-                                        <a href="/section/<?= $section->id ?>/delete" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
+                                        <a href="/section/<?= $section->id ?>/confirme" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
