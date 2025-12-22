@@ -21,7 +21,7 @@ class Router
             $pattern = preg_replace('/\{[^\}]+\}/', '([^/]+)', $route->path);
             $pattern = "#^" . $pattern . "$#";
             
-            if (preg_match($pattern, $path, $matches)) {
+            if ($route->method === $method && preg_match($pattern, $path, $matches)) {
                 array_shift($matches);
                 $resolver = new ControllerResolver();
                 return $resolver->resolve($route->action,$matches);
