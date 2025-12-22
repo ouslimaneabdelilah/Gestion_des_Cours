@@ -27,7 +27,7 @@ class EntityManager
                 $params[] = "?";
             }
         }
-        $sql = "INSERT INTO {$tableName}(" . implode(",", $columns) . ") VALUES (" . implode("", $params) . ")";
+        $sql = "INSERT INTO {$tableName}(" . implode(",", $columns) . ") VALUES (" . implode(", ", $params) . ")";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute($values);
     }
