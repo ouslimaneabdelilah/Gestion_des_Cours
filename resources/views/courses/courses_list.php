@@ -69,7 +69,7 @@ if (isset($_SESSION["message"])) {
                                         <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course->title) ?></p>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <img src="/public/uploads/<?= $course->image?>" width="150">
+                                        <img src="/public/uploads/<?= $course->image ?>" width="150">
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <p class="text-gray-900 whitespace-no-wrap"><?= htmlspecialchars($course->description) ?></p>
@@ -84,9 +84,15 @@ if (isset($_SESSION["message"])) {
                                         <a href="course/<?= $course->id ?>/edit" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
                                         <a href="course/<?= $course->id ?>/confirme" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
                                         <a href="course/<?= $course->id ?>/sectionsbycourse" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
-                                        <a href="course/<?= $course->id ?>/sectionsbycourse" class="text-blue-600 hover:text-blue-900 ml-4">
-                                            
-                                        </a>
+                                        <?php if (isset($_SESSION['user_id'])): ?>
+                                            <form action="/enroll/<?= $course->id ?>" method="POST" style="display:inline;">
+                                                <button type="submit" class="text-green-600 hover:text-green-900 ml-4 font-semibold">
+                                                    <?php
+                                                    echo $enrollmentRepo->isUserEnrolled($_SESSION['user_id'], $course->id) ? 'Se désinscrire' : 'S\'inscrire';
+                                                    ?>
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
