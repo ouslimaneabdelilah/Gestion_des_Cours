@@ -16,7 +16,7 @@ class AuthController {
 
     public function register() {
         if ($this->authService->register($_POST)) {
-            $_SESSION['message'] = "Compte créé, vous pouvez vous connecter.";
+            $_SESSION['message'] = "Succes : le compt creé mainttanat connecter dans votre compt.";
             header("Location: /login");
             exit;
         }

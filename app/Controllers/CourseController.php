@@ -4,16 +4,18 @@ namespace App\Controllers;
 
 use App\Models\Course;
 use App\Repositories\CourseRepository;
-
+use App\Repositories\EnrollmentRepository;
 class CourseController
 {
+    private $enrollmentRepo;
     private $repo;
     private $levels = ["Débutant", "Intermédiaire", "Avancé"];
 
 
-    public function __construct(CourseRepository $repo)
+    public function __construct(CourseRepository $repo,EnrollmentRepository $enrollmentRepo)
     {
         $this->repo = $repo;
+        $this->enrollmentRepo = $enrollmentRepo;
     }
 
 
@@ -22,6 +24,7 @@ class CourseController
     {
 
         $courses = $this->repo->all(Course::class);
+        $enrollmentRepo = $this->enrollmentRepo;
         include "./resources/views/courses/courses_list.php";
     }
 
