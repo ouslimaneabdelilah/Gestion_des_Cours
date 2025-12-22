@@ -2,14 +2,18 @@
 namespace Config;
 // routes auth
 
-$router->add('GET', 'register', 'AuthController@showRegister'); 
+$router->add('GET', '', 'HomeController@welcome');
 $router->add('POST', 'register', 'AuthController@register');
+$router->add('GET', 'register', 'AuthController@showRegister'); 
 $router->add('GET', 'login', 'AuthController@showLogin');   
 $router->add('POST', 'login', 'AuthController@login'); 
-
 $router->add('GET', 'logout', 'AuthController@logout');
+
+// routes enrolment 
+$router->add('POST', 'enroll/{id}', 'EnrollmentController@toggleEnroll');
+$router->add('GET', 'admin/dashboard', 'DashboardController@index');
+
 // routes courses
-$router->add("GET","", 'CourseController@index');
 $router->add('GET','courses', 'CourseController@index');
 $router->add('GET','course/create', 'CourseController@create');
 $router->add('GET','course/{id}/edit', 'CourseController@edit');
