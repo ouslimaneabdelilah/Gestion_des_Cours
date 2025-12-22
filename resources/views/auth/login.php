@@ -1,5 +1,16 @@
 <?php
 $page_title = "Connexion";
+ if (isset($_SESSION['error'])) : ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+        <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['message'])) : ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+        <?= $_SESSION['message']; unset($_SESSION['message']); ?>
+    </div>
+<?php endif;
 ?>
 <!doctype html>
 <html lang="fr">
@@ -103,7 +114,7 @@ $page_title = "Connexion";
     </div>
 
     <div class="mt-8 text-center">
-      <a href="/courses" class="text-white hover:text-blue-100 text-sm">
+      <a href="/" class="text-white hover:text-blue-100 text-sm">
         <i class="fas fa-arrow-left mr-2"></i>Retour à l'accueil
       </a>
     </div>
@@ -149,6 +160,7 @@ $page_title = "Connexion";
         errors.forEach(error => {
           ulErrors.innerHTML += `<li>${error}</li>`;
         });
+        return false;
       } else {
         divErrors.classList.add('invisible');
         loginForm.submit();

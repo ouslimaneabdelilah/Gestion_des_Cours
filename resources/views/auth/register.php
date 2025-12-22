@@ -1,5 +1,16 @@
 <?php
 $page_title = "Inscription";
+ if (isset($_SESSION['error'])) : ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+        <?= $_SESSION['error']; unset($_SESSION['error']); ?>
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['message'])) : ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
+        <?= $_SESSION['message']; unset($_SESSION['message']); ?>
+    </div>
+<?php endif;
 ?>
 <!doctype html>
 <html lang="fr">
@@ -20,7 +31,6 @@ $page_title = "Inscription";
       </div>
       
       <div class="p-8">
-        <!-- Alert Error (hidden by default) -->
         <div class="bg-red-100 mb-4 invisible border border-red-400 text-red-700 px-4 py-3 rounded relative alert_error" role="alert">
           <ul id="registerErrors" class="font-medium text-sm">
           </ul>
@@ -28,13 +38,13 @@ $page_title = "Inscription";
 
         <form id="registerForm" action="/register" method="POST" class="space-y-5">
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-              <i class="fas fa-user mr-2 text-indigo-600"></i>Nom complet
+            <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+              <i class="fas fa-user mr-2 text-indigo-600"></i>Username
             </label>
             <input 
               type="text" 
-              name="name" 
-              id="name" 
+              name="username" 
+              id="username" 
               class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out"
               placeholder="Jean Dupont"
             >
@@ -146,7 +156,7 @@ $page_title = "Inscription";
     </div>
 
     <div class="mt-8 text-center">
-      <a href="/courses" class="text-white hover:text-blue-100 text-sm">
+      <a href="/" class="text-white hover:text-blue-100 text-sm">
         <i class="fas fa-arrow-left mr-2"></i>Retour à l'accueil
       </a>
     </div>
@@ -180,7 +190,7 @@ $page_title = "Inscription";
     registerForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      const name = document.getElementById('name').value.trim();
+      const username = document.getElementById('username').value.trim();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value.trim();
       const confirmPassword = document.getElementById('confirm_password').value.trim();
@@ -188,39 +198,39 @@ $page_title = "Inscription";
       const ulErrors = document.getElementById('registerErrors');
       const divErrors = document.querySelector('.alert_error');
       const errors = [];
-
-      if (name === '') {
+      
+      if (username === '') {
         errors.push('Le nom complet est requis !');
       }
-
+      
       if (email === '') {
         errors.push('L\'adresse email est requise !');
       } else if (!isValidEmail(email)) {
         errors.push('L\'adresse email n\'est pas valide !');
       }
-
+      
       if (password === '') {
         errors.push('Le mot de passe est requis !');
       } else if (password.length < 6) {
         errors.push('Le mot de passe doit contenir au moins 6 caractères !');
       }
-
+      
       if (confirmPassword === '') {
         errors.push('La confirmation du mot de passe est requise !');
       } else if (password !== confirmPassword) {
         errors.push('Les mots de passe ne correspondent pas !');
       }
-
+      
       if (!terms) {
         errors.push('Vous devez accepter les conditions d\'utilisation !');
       }
-
       if (errors.length > 0) {
         divErrors.classList.remove('invisible');
         ulErrors.innerHTML = '';
         errors.forEach(error => {
           ulErrors.innerHTML += `<li>${error}</li>`;
         });
+        return false;
       } else {
         divErrors.classList.add('invisible');
         registerForm.submit();
