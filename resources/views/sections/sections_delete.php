@@ -13,8 +13,8 @@ require_once "./resources/views/layouts/header.php";
                 Êtes-vous sûr de vouloir supprimer cette section ? Cette action est irréversible.
             </p>
             <div class="mt-6 bg-gray-50 p-4 rounded-lg border">
-                <p class="text-lg font-semibold text-gray-800"><?= htmlspecialchars($section['title']) ?></p>
-                <p class="text-sm text-gray-600 mt-1"><?= htmlspecialchars($section['content']) ?></p>
+                <p class="text-lg font-semibold text-gray-800"><?= htmlspecialchars($section->title) ?></p>
+                <p class="text-sm text-gray-600 mt-1"><?= htmlspecialchars($section->content) ?></p>
             </div>
             <div class="mt-8 flex justify-center gap-4">
                 <a href="/sections" class="px-6 py-2 border rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100">Annuler</a>

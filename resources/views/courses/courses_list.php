@@ -82,8 +82,11 @@ if (isset($_SESSION["message"])) {
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <a href="course/<?= $course->id ?>/edit" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
-                                        <a href="course/<?= $course->id ?>/delete" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
+                                        <a href="course/<?= $course->id ?>/confirme" class="text-red-600 hover:text-red-900 ml-4">Supprimer</a>
                                         <a href="course/<?= $course->id ?>/sectionsbycourse" class="text-blue-600 hover:text-blue-900 ml-4">Voir Sections</a>
+                                        <a href="course/<?= $course->id ?>/sectionsbycourse" class="text-blue-600 hover:text-blue-900 ml-4">
+                                            
+                                        </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

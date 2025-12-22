@@ -20,14 +20,25 @@ if (!isset($page_title)) { $page_title = 'Gestions des courses'; }
                     Cours & Sections
                 </a>
             </div>
-            <div class="hidden md:block">
-                <div class="ml-10 flex items-baseline space-x-4">
-                    <a href="/courses" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Cours</a>
-                    <a href="/sections" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Sections</a>
-                    <a href="/course/create" class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
-                        <i class="fas fa-plus-circle mr-1"></i> Créer un Cours
-                    </a>
-                </div>
+            <div class="hidden md:flex items-center">
+                <?php if (!empty($_SESSION['username'])): ?>
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/courses" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Cours</a>
+                        <a href="/sections" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Sections</a>
+                        <a href="/course/create" class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out">
+                            <i class="fas fa-plus-circle mr-1"></i> Créer un Cours
+                        </a>
+                    </div>
+                    <div class="ml-6 flex items-center space-x-3">
+                        <span class="text-sm font-medium">Bonjour, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                        <a href="/logout" class="px-3 py-2 rounded-md text-sm font-medium bg-red-500 hover:bg-red-600 transition duration-150 ease-in-out">Déconnexion</a>
+                    </div>
+                <?php else: ?>
+                    <div class="ml-6 flex items-center space-x-3">
+                        <a href="/login" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Connexion</a>
+                        <a href="/register" class="px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-500 hover:bg-opacity-75 transition duration-150 ease-in-out">Inscription</a>
+                    </div>
+                <?php endif; ?>
             </div>
             <div class="-mr-2 flex md:hidden">
                 <button type="button" id="mobile-menu-button" class="bg-indigo-600 inline-flex items-center justify-center p-2 rounded-md text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-indigo-600 focus:ring-white">
@@ -39,11 +50,20 @@ if (!isset($page_title)) { $page_title = 'Gestions des courses'; }
     </div>
 
     <div class="md:hidden hidden" id="mobile-menu">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <a href="/courses" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Cours</a>
-            <a href="/sections" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Sections</a>
-            <a href="/course/create" class="text-white bg-green-500 hover:bg-green-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-plus-circle mr-1"></i> Créer un Cours</a>
-        </div>
+        <?php if (!empty($_SESSION['username'])): ?>
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="/courses" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Cours</a>
+                <a href="/sections" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Sections</a>
+                <a href="/course/create" class="text-white bg-green-500 hover:bg-green-600 block px-3 py-2 rounded-md text-base font-medium"><i class="fas fa-plus-circle mr-1"></i> Créer un Cours</a>
+                <span class="block text-white px-3 py-2 text-base font-medium">Bonjour, <?= htmlspecialchars($_SESSION['username']) ?></span>
+                <a href="/logout" class="text-white hover:bg-red-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Déconnexion</a>
+            </div>
+        <?php else: ?>
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="/login" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Connexion</a>
+                <a href="/register" class="text-white hover:bg-indigo-500 hover:bg-opacity-75 block px-3 py-2 rounded-md text-base font-medium">Inscription</a>
+            </div>
+        <?php endif; ?>
     </div>
   </nav>
   <main class="max-w-7xl mx-auto p-4 animate-fade-in-down">

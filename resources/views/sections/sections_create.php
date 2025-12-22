@@ -26,8 +26,8 @@ require_once "./resources/views/layouts/header.php";
                             <select id="course_id" name="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="">-- Sélectionnez un cours --</option>
                                 <?php foreach ($courses as $course) : ?>
-                                    <option value="<?= $course['id'] ?>">
-                                        <?= htmlspecialchars($course['title']) ?>
+                                    <option value="<?= $course->id?>">
+                                        <?= htmlspecialchars($course->title) ?>
                                     </option>
                                     <?php endforeach; ?>
                                 </select>
