@@ -47,3 +47,78 @@ INSERT INTO sections (id, course_id, title, content, position) VALUES (1, 1, 'Qu
 (7, 3, 'Introduction à SQL', 'Présentation des requêtes SELECT, INSERT, UPDATE.', 1),
 (8, 3, 'Relations et clés étrangères', 'Comprendre les relations entre tables.', 2),
 (9, 3, 'Requêtes avancées', 'GROUP BY, JOIN, sous-requêtes.', 3),
+
+
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('Admin', 'Student') DEFAULT 'Student',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+CREATE TABLE IF NOT EXISTS enrollments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    course_id INT NOT NULL,
+    enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_enrollment (user_id, course_id),
+    CONSTRAINT fk_user FOREIGN KEY (user_id) 
+    REFERENCES users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_course FOREIGN KEY (course_id) 
+    REFERENCES courses(id) ON DELETE CASCADE
+)
+
+/*Nombre Total de Cours.*/
+SELECT COUNT(*) from courses
+
+/*Total des Utilisateurs*/
+SELECT COUNT(*) from users
+
+/*Total des Inscriptions par cours*/
+SELECT COUNT(*) from enrollments
+
+/*Cours le Plus Populaire*/
+select c.id, c.title, count(e.id) from courses c 
+inner join enrollments e 
+on c.id = e.course_id 
+group by c.id
+
+/*Nombre Moyen de Sections par Cours*/
+SELECT AVG(section_count)
+FROM (SELECT COUNT(*) AS section_count
+    FROM sections
+    GROUP BY course_id
+) AS subquery;
+
+/*Tableau de Cours Ayant Plus de 5 Sections*/
+select c.id, c.title,count(s.id) from courses c 
+inner join sections s 
+on c.id = s.course_id 
+group by c.id
+HAVING count(s.id) > 5;
+
+/*Tableau de Utilisateurs Inscrits cette Année*/
+SELECT u.username, c.title, e.enrolled_at 
+FROM enrollments e 
+JOIN users u ON e.user_id = u.id 
+JOIN courses c ON e.course_id = c.id 
+WHERE YEAR(e.enrolled_at) = YEAR(CURDATE())
+/*Tableau de Cours Sans Inscription*/
+
+SELECT c.title FROM courses c 
+LEFT JOIN enrollments e ON c.id = e.course_id 
+WHERE e.id IS NULL
+
+/*Tableau de Dernières Inscriptions*/
+SELECT u.username, c.title, e.enrolled_at 
+FROM enrollments e 
+JOIN users u ON e.user_id = u.id 
+JOIN courses c ON e.course_id = c.id 
+ORDER BY e.enrolled_at DESC LIMIT 5
+
+

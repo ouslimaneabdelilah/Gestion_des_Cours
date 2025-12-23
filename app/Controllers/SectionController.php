@@ -56,10 +56,9 @@ class SectionController
             return;
         }
 
-        $section = new Section($title, $course_id, $position);
+        $section = new Section($id=null, $course_id,$title,$content, $position);
         $section->content = $content;
         $this->sectionRepo->insert($section);
-        
         $_SESSION["message"] = "La section a été créée avec succès.";
         header("Location: /sections");
         exit();

@@ -1,5 +1,7 @@
 <?php
 namespace App\Models;
+use AllowDynamicProperties;
+#[AllowDynamicProperties]
 class Course
 {
     public $id;

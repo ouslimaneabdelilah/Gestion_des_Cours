@@ -78,7 +78,7 @@ class CourseController
             }
 
 
-            $course = new Course($title, $description, $level, $imageName);
+            $course = new Course($id = null,$title,$description,$level, $imageName,$created_at=null);
             $this->repo->insert($course);
             $_SESSION["message"] = "Le cours a été ajouté avec succès.";
             header("Location: /courses");
