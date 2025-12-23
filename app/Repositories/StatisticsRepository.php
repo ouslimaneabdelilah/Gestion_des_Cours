@@ -100,4 +100,17 @@ class StatisticsRepository
                 ";
         return $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function visiteur()
+    {
+        if (!isset($_SESSION["count"])) {
+            $_SESSION["count"] = 0;
+        }
+
+        if (isset($_SESSION["user"])) {
+            $_SESSION["count"]++;
+        }
+
+        return $_SESSION["count"];
+    }
 }

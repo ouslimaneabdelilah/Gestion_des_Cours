@@ -32,6 +32,7 @@ class DashboardController
 
         $latestEnrollments = $this->statsRepo->dernieresInscriptions();
         $usersSansUser = $this->statsRepo->userSansinscription();
+        $numbervisteurs = $this->statsRepo->visiteur();
         include "./resources/views/admin/stats_dashboard.php";
     }
 }

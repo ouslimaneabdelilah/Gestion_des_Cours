@@ -44,6 +44,17 @@ include_once './resources/views/layouts/header.php';
                     </div>
                 </div>
             </div>
+            <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-600 text-sm font-semibold uppercase">Visteurs</p>
+                        <p class="text-3xl font-bold text-gray-800 mt-2"><?= $numbervisteurs ?></p>
+                    </div>
+                    <div class="text-4xl text-purple-500 opacity-20">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                </div>
+            </div>
 
             <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-orange-500">
                 <div class="flex items-center justify-between">
