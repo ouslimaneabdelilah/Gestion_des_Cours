@@ -2,26 +2,32 @@
 
 namespace App\Repositories;
 
-class StatisticsRepository {
+class StatisticsRepository
+{
     private $pdo;
 
-    public function __construct(\PDO $pdo) {
+    public function __construct(\PDO $pdo)
+    {
         $this->pdo = $pdo;
     }
 
-    public function nombreTotaldeCours() {
+    public function nombreTotaldeCours()
+    {
         return $this->pdo->query("SELECT COUNT(*) FROM courses")->fetchColumn();
     }
 
-    public function nombreUsers() {
+    public function nombreUsers()
+    {
         return $this->pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
     }
 
-    public function totalInsc() {
+    public function totalInsc()
+    {
         return $this->pdo->query("SELECT COUNT(*) FROM enrollments")->fetchColumn();
     }
 
-    public function inscriptionsParCours() {
+    public function inscriptionsParCours()
+    {
         $sql = "SELECT c.title, COUNT(e.id) as total 
                 FROM courses c 
                 LEFT JOIN enrollments e ON c.id = e.course_id 
@@ -29,7 +35,8 @@ class StatisticsRepository {
         return $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function popularCourse() {
+    public function popularCourse()
+    {
         $sql = "SELECT c.title, COUNT(e.id) as total 
                 FROM courses c 
                 LEFT JOIN enrollments e ON c.id = e.course_id 
@@ -38,14 +45,16 @@ class StatisticsRepository {
         return $this->pdo->query($sql)->fetch(\PDO::FETCH_ASSOC);
     }
 
-    public function moyenneSectionsCours() {
+    public function moyenneSectionsCours()
+    {
         $sql = "SELECT AVG(section_count) FROM (
                     SELECT COUNT(*) as section_count FROM sections GROUP BY course_id
                 ) as subquery";
         return round($this->pdo->query($sql)->fetchColumn(), 2);
     }
 
-    public function coursRiche() {
+    public function coursRiche()
+    {
         $sql = "SELECT c.title, COUNT(s.id) as section_count 
                 FROM courses c 
                 JOIN sections s ON c.id = s.course_id 
@@ -54,7 +63,8 @@ class StatisticsRepository {
         return $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function inscriptionsCetteAnne() {
+    public function inscriptionsCetteAnne()
+    {
         $sql = "SELECT u.username, c.title, e.enrolled_at 
                 FROM enrollments e 
                 JOIN users u ON e.user_id = u.id 
@@ -63,19 +73,31 @@ class StatisticsRepository {
         return $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function coursSansInscriptions() {
+    public function coursSansInscriptions()
+    {
         $sql = "SELECT c.title FROM courses c 
                 LEFT JOIN enrollments e ON c.id = e.course_id 
                 WHERE e.id IS NULL";
         return $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function dernieresInscriptions() {
+    public function dernieresInscriptions()
+    {
         $sql = "SELECT u.username, c.title, e.enrolled_at 
                 FROM enrollments e 
                 JOIN users u ON e.user_id = u.id 
                 JOIN courses c ON e.course_id = c.id 
                 ORDER BY e.enrolled_at DESC LIMIT 5";
+        return $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function userSansinscription()
+    {
+        $sql = "SELECT u.username
+        from users u 
+        left join enrollments e on u.id = e.user_id
+        where e.id is null
+                ";
         return $this->pdo->query($sql)->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

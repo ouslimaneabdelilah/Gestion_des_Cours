@@ -168,6 +168,29 @@ include_once './resources/views/layouts/header.php';
                 </table>
             </div>
         </div>
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                <i class="fas fa-clock text-purple-500 mr-2"></i> User Sans inscription in course
+            </h3>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-100 border-b-2">
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Utilisateur Sans Inscription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($usersSansUser as $userSans): ?>
+                            <tr class="border-b hover:bg-gray-50 transition">
+                                <td class="px-4 py-3 text-sm text-gray-800">
+                                    <span class="font-semibold"><?= htmlspecialchars($userSans['username']) ?></span>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <?php if (!empty($usersThisYear)): ?>
         <div class="bg-white rounded-lg shadow-lg p-6">

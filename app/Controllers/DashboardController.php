@@ -31,6 +31,7 @@ class DashboardController
         $emptyCourses = $this->statsRepo->coursSansInscriptions();
 
         $latestEnrollments = $this->statsRepo->dernieresInscriptions();
+        $usersSansUser = $this->statsRepo->userSansinscription();
         include "./resources/views/admin/stats_dashboard.php";
     }
 }
